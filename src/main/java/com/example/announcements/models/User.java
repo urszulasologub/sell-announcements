@@ -2,8 +2,11 @@ package com.example.announcements.models;
 
 
 import org.hibernate.annotations.Cascade;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -15,12 +18,13 @@ public class User {
 	@Column(name = "auth_user_id")
 	private int id;
 
-	@Column(name = "login")
-	private String name;
-
+	@NotNull(message = "Email is compulsory")
+	@Email(message = "Email is invalid")
 	@Column(name = "email")
 	private String email;
 
+	@NotNull(message="Password is compulsory")
+	@Length(min=5, message="Password should be at least 5 characters")
 	@Column(name = "password")
 	private String password;
 
@@ -36,16 +40,6 @@ public class User {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 
