@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
+
 
 @Service
 public class UserServiceImp implements UserService {
@@ -21,6 +23,21 @@ public class UserServiceImp implements UserService {
 	RoleRepository roleRepository;
 	@Autowired
 	UserRepository userRepository;
+
+
+	@PostConstruct
+	private void postConstruct() {
+		Role admin = new Role();
+		admin.setRole("ADMIN_USER");
+		Role superuser = new Role();
+		superuser.setRole("SUPER_USER");
+		Role siteuser = new Role();
+		siteuser.setRole("SITE_USER");
+		roleRepository.save(admin);
+		roleRepository.save(superuser);
+		roleRepository.save(siteuser);
+	}
+
 
 	@Override
 	public void saveUser(User user) {

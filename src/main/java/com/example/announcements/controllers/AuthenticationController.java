@@ -1,6 +1,8 @@
 package com.example.announcements.controllers;
 
 
+import com.example.announcements.models.Role;
+import com.example.announcements.repository.RoleRepository;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.announcements.models.User;
 
 import javax.validation.Valid;
+import java.util.Collections;
 
 
 @Controller
@@ -21,6 +24,9 @@ public class AuthenticationController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	RoleRepository roleRepository;
 
 
 	@RequestMapping(value = { "/login" }, method = RequestMethod.GET)
@@ -54,6 +60,8 @@ public class AuthenticationController {
 		}
 		// we will save the user if, no binding errors
 		else {
+			Role userRole = roleRepository.findByRole("SITE_USER");
+			user.setRoles(Collections.singleton(userRole));
 			userService.saveUser(user);
 			modelAndView.addObject("successMessage", "User is registered successfully!");
 		}
