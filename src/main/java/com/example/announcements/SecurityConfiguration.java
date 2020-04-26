@@ -30,6 +30,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Value("${spring.queries.roles-query}")
 	private String rolesQuery;
 
+	@Autowired
+	private CustomLoginSuccessHandler sucessHandler;
+
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.jdbcAuthentication().usersByUsernameQuery(usersQuery).authoritiesByUsernameQuery(rolesQuery)
@@ -51,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.csrf().disable().formLogin()
 				.loginPage("/login")
 				.failureUrl("/login?error=true")
+				.successHandler(sucessHandler)
 				.defaultSuccessUrl("/home")
 				.usernameParameter("email")
 				.passwordParameter("password")
