@@ -19,7 +19,7 @@ public class User {
 
 	@NotNull(message = "Email is compulsory")
 	@Email(message = "Email is invalid")
-	@Column(name = "email")
+	@Column(name = "email", unique=true)
 	private String email;
 
 	@NotNull(message="Password is compulsory")
