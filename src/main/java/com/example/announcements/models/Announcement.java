@@ -2,6 +2,8 @@ package com.example.announcements.models;
 
 
 import javax.persistence.*;
+import java.util.Calendar;
+import java.util.Date;
 
 @Entity
 @Table(name="announcement")
@@ -15,10 +17,8 @@ public class Announcement {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Category category_id;
 
-
-	/*@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "auth_user_id", nullable = false)
-	private User user_id;*/
+	@ManyToOne(cascade = CascadeType.ALL)
+	private User user_id;
 
 	@Column(name = "announcement_name", length=50)
 	private String name;
@@ -35,5 +35,17 @@ public class Announcement {
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private byte[] image;
+
+	@Column(name = "is_hidden")
+	private Boolean is_hidden = false;
+
+	@Column(name = "phone_number", length=15)
+	private String phone_number;
+
+	@Column(name = "datetime")
+	private Date datetime = Calendar.getInstance().getTime();
+
+	@Column(name = "location")
+	private String location;
 
 }

@@ -33,7 +33,8 @@ public class User {
 	private Set<Role> roles;
 
 
-	/*@OneToMany(mappedBy = "auth_user", cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="user_id")
 	private Set<Announcement> announcements = new HashSet<Announcement>();
 
 
@@ -43,7 +44,7 @@ public class User {
 
 	public void setAnnouncements(Set<Announcement> announcements) {
 		this.announcements = announcements;
-	} */
+	}
 
 
 	public int getId() {
