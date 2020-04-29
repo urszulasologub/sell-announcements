@@ -2,6 +2,8 @@ package com.example.announcements.models;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="category")
@@ -14,6 +16,19 @@ public class Category {
 
 	@Column(name = "name")
 	private String name;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="category_id")
+	private Set<Announcement> announcements = new HashSet<Announcement>();
+
+
+	public Set<Announcement> getAnnouncements() {
+		return announcements;
+	}
+
+	public void setAnnouncements(Set<Announcement> announcements) {
+		this.announcements = announcements;
+	}
 
 	public int getId() {
 		return id;

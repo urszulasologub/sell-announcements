@@ -27,15 +27,17 @@ public class UserServiceImp implements UserService {
 
 	@PostConstruct
 	private void postConstruct() {
-		Role admin = new Role();
-		admin.setRole("ADMIN_USER");
-		Role superuser = new Role();
-		superuser.setRole("SUPER_USER");
-		Role siteuser = new Role();
-		siteuser.setRole("SITE_USER");
-		roleRepository.save(admin);
-		roleRepository.save(superuser);
-		roleRepository.save(siteuser);
+		if (roleRepository.count() == 0) {
+			Role admin = new Role();
+			admin.setRole("ADMIN_USER");
+			Role superuser = new Role();
+			superuser.setRole("SUPER_USER");
+			Role siteuser = new Role();
+			siteuser.setRole("SITE_USER");
+			roleRepository.save(admin);
+			roleRepository.save(superuser);
+			roleRepository.save(siteuser);
+		}
 	}
 
 

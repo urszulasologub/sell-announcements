@@ -12,7 +12,7 @@ public class Role {
 	@Column(name = "auth_role_id")
 	private int id;
 
-	@Column(name = "role_name")
+	@Column(name = "role_name", unique = true)
 	private String role;
 
 	@Column(name = "role_desc")

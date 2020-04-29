@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -30,6 +31,19 @@ public class User {
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "auth_user_role", joinColumns = @JoinColumn(name = "auth_user_id"), inverseJoinColumns = @JoinColumn(name = "auth_role_id"))
 	private Set<Role> roles;
+
+
+	/*@OneToMany(mappedBy = "auth_user", cascade = CascadeType.ALL)
+	private Set<Announcement> announcements = new HashSet<Announcement>();
+
+
+	public Set<Announcement> getAnnouncements() {
+		return announcements;
+	}
+
+	public void setAnnouncements(Set<Announcement> announcements) {
+		this.announcements = announcements;
+	} */
 
 
 	public int getId() {
