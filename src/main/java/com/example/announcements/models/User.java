@@ -1,7 +1,6 @@
 package com.example.announcements.models;
 
 
-import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
