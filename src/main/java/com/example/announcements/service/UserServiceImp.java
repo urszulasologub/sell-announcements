@@ -8,10 +8,14 @@ import com.example.announcements.models.User;
 import com.example.announcements.repository.RoleRepository;
 import com.example.announcements.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
 
 @Service
@@ -49,9 +53,16 @@ public class UserServiceImp implements UserService {
 		userRepository.save(user);
 	}
 
+
 	@Override
 	public boolean isUserAlreadyPresent(User user) {
-		// TODO: Implement
+		ExampleMatcher modelMatcher = ExampleMatcher.matching()
+				.withIgnorePaths("id")
+				.withMatcher("email", ignoreCase());
+		User newUser = new User();
+		newUser.setEmail(user.getEmail());
+		if (userRepository.exists(Example.of(newUser, modelMatcher)))
+			return true;
 		return false;
 	}
 
