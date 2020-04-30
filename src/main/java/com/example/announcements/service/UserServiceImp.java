@@ -61,9 +61,7 @@ public class UserServiceImp implements UserService {
 				.withMatcher("email", ignoreCase());
 		User newUser = new User();
 		newUser.setEmail(user.getEmail());
-		if (userRepository.exists(Example.of(newUser, modelMatcher)))
-			return true;
-		return false;
+		return userRepository.exists(Example.of(newUser, modelMatcher));
 	}
 
 }
