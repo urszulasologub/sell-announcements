@@ -48,4 +48,7 @@ public class Announcement {
 	@Column(name = "location")
 	private String location;
 
+	@OneToOne(cascade = CascadeType.ALL)
+	private PrivateMessage private_message_id;
+
 }

@@ -32,10 +32,12 @@ public class User {
 	@JoinTable(name = "auth_user_role", joinColumns = @JoinColumn(name = "auth_user_id"), inverseJoinColumns = @JoinColumn(name = "auth_role_id"))
 	private Set<Role> roles;
 
-
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="user_id")
 	private Set<Announcement> announcements = new HashSet<Announcement>();
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	private User user_id;
 
 
 	public Set<Announcement> getAnnouncements() {
@@ -81,8 +83,15 @@ public class User {
 		return roles;
 	}
 
-
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
+	}
+
+	public User getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(User user_id) {
+		this.user_id = user_id;
 	}
 }
