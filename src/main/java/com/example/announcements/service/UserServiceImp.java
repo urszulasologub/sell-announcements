@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -22,7 +23,7 @@ import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatc
 public class UserServiceImp implements UserService {
 
 	@Autowired
-	BCryptPasswordEncoder encoder;
+	PasswordEncoder encoder;
 	@Autowired
 	RoleRepository roleRepository;
 	@Autowired
