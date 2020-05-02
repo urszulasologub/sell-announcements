@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RestAdminPanelController {
@@ -44,8 +46,16 @@ public class RestAdminPanelController {
 
     @RequestMapping(value = { "/admin_auth/{id}" }, method = RequestMethod.DELETE)
     public ResponseEntity<?> editUser(@PathVariable("id") Integer id) {
-        userRepository.deleteById(id);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        Optional<User> userToDelete = userRepository.findById(id);
+        if (userToDelete.isPresent()) {
+            userToDelete.get().setRoles(Collections.emptySet());
+            userRepository.save(userToDelete.get());
+
+            userRepository.delete(userToDelete.get());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @RequestMapping(value = { "/admin_announcement" }, method = RequestMethod.GET)
