@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Collections;
 
 
-@Controller
+//@Controller
 public class AuthenticationController {
 
 

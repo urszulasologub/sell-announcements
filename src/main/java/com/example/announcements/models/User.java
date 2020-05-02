@@ -27,7 +27,6 @@ public class User {
 	@NotNull(message="Password is compulsory")
 	@Length(min=5, message="Password should be at least 5 characters")
 	@Column(name = "password")
-	@JsonIgnore
 	private String password;
 
 	@ManyToMany(cascade = CascadeType.ALL)
