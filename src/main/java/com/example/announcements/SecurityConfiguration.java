@@ -52,7 +52,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin_announcement").hasAnyAuthority("ADMIN_USER")
 				.antMatchers("/admin_category").hasAnyAuthority("ADMIN_USER")
 				.antMatchers("/admin_priv").hasAnyAuthority("ADMIN_USER")
-				.antMatchers("/home/**").hasAnyAuthority("SUPER_USER", "ADMIN_USER", "SITE_USER")
+				.antMatchers("/home/**").hasAnyAuthority( "ADMIN_USER", "SITE_USER")
 				.anyRequest().authenticated()
 				.and()
 				// form login
