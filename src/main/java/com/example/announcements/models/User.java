@@ -1,6 +1,7 @@
 package com.example.announcements.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -16,7 +17,7 @@ public class User {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
 	@Column(name = "auth_user_id")
-	private int id;
+	private Integer id;
 
 	@NotNull(message = "Email is compulsory")
 	@Email(message = "Email is invalid")
@@ -26,6 +27,7 @@ public class User {
 	@NotNull(message="Password is compulsory")
 	@Length(min=5, message="Password should be at least 5 characters")
 	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -39,6 +41,18 @@ public class User {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user_id;
 
+	public User() {
+		this(null, null, null, null, null, null);
+	}
+
+	public User(Integer id, @NotNull(message = "Email is compulsory") @Email(message = "Email is invalid") String email, @NotNull(message = "Password is compulsory") @Length(min = 5, message = "Password should be at least 5 characters") String password, Set<Role> roles, Set<Announcement> announcements, User user_id) {
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.roles = roles;
+		this.announcements = announcements;
+		this.user_id = user_id;
+	}
 
 	public Set<Announcement> getAnnouncements() {
 		return announcements;
@@ -49,12 +63,12 @@ public class User {
 	}
 
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
