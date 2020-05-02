@@ -1,7 +1,9 @@
 package com.example.announcements.controllers;
 
 
+import com.example.announcements.models.Role;
 import com.example.announcements.repository.RoleRepository;
+import com.example.announcements.repository.UserRepository;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,14 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-@Controller
+//@Controller
 public class AdminPanelController {
 
+
+	@Autowired
+	UserRepository userRepository;
 
 	@RequestMapping(value = { "/admin_auth" }, method = RequestMethod.GET)
 	public ModelAndView adminUserList() {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("admin_auth");
+		modelAndView.addObject("users", userRepository.findAll());
 		return modelAndView;
 	}
 

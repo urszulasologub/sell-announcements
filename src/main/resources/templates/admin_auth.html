@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
 </head>
 <body>
-admin can see it, manage accounts
+<tr th:each="user: ${users}">
+    <br><br><td th:text="${user.id}" />
+    <br><td th:text="${user.email}" />
+    <br>
+    <p th:each="role: ${user.roles}" th:text="${role.role}" />
+</tr>
 </body>
 </html>
