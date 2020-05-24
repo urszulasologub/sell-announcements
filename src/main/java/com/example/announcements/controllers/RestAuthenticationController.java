@@ -63,6 +63,7 @@ public class RestAuthenticationController {
         session.invalidate();
     }
 
+
     @RequestMapping(value="/register", method=RequestMethod.POST)
     public User registerUser(@RequestBody User user) {
         user.setId(null);

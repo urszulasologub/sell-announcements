@@ -55,6 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				// URLs matching for access rights
 				.antMatchers("/").permitAll()
+				.antMatchers("l").permitAll()
 				.antMatchers("/login").permitAll()
 				.antMatchers("/register").permitAll()
 				.antMatchers("/admin").hasAnyAuthority("ADMIN_USER")
@@ -63,6 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/admin_category").hasAnyAuthority("ADMIN_USER")
 				.antMatchers("/admin_priv").hasAnyAuthority("ADMIN_USER")
 				.antMatchers("/home/**").hasAnyAuthority( "ADMIN_USER", "SITE_USER")
+				.antMatchers("/home").permitAll()
 				.anyRequest().authenticated()
 				.and()
 				.csrf().disable()

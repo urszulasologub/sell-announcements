@@ -1,15 +1,11 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Admin</title>
-</head>
-<body>
-<tr th:each="user: ${users}">
-    <br><br><td th:text="${user.id}" />
-    <br><td th:text="${user.email}" />
-    <br>
-    <p th:each="role: ${user.roles}" th:text="${role.role}" />
-</tr>
+<script>
+function load() {
+    fetch("/admin_auth")
+        .then(response => response.json())
+        .then(data => console.log(data));
+}
+</script>
+<body onload="load">
+<div id="xxx">
+</div>
 </body>
-</html>
