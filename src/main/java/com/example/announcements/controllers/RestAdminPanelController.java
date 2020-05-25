@@ -31,6 +31,7 @@ public class RestAdminPanelController {
         return userRepository.findAll();
     }
 
+
     @RequestMapping(value = { "/admin_auth" }, method = RequestMethod.POST)
     public User saveUser(@RequestBody User inputUser) {
         inputUser.setId(null);
@@ -39,10 +40,12 @@ public class RestAdminPanelController {
         return userService.saveUser(inputUser);
     }
 
+
     @RequestMapping(value = { "/admin_auth" }, method = RequestMethod.PUT)
     public User editUser(@RequestBody User inputUser) {
         return userService.saveUser(inputUser);
     }
+
 
     @RequestMapping(value = { "/admin_auth/{id}" }, method = RequestMethod.DELETE)
     public ResponseEntity<?> editUser(@PathVariable("id") Integer id) {
