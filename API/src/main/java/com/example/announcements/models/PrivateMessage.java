@@ -13,7 +13,7 @@ public class PrivateMessage {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
 	@Column(name = "message_id")
-	private int id;
+	private Integer id;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="private_message_id")
@@ -29,4 +29,15 @@ public class PrivateMessage {
 	@Column(name = "datetime")
 	private Date datetime = Calendar.getInstance().getTime();
 
+	public PrivateMessage() {
+		this(null, null, null, null, null);
+	}
+
+	public PrivateMessage(Integer id, Set<Announcement> announcements, User buyer, String message, Date datetime) {
+		this.id = id;
+		this.announcements = announcements;
+		this.buyer = buyer;
+		this.message = message;
+		this.datetime = datetime;
+	}
 }

@@ -25,6 +25,9 @@ public class RestAnnouncementsController {
 	@Autowired
 	CategoryRepository categoryRepository;
 
+	@Autowired
+	UserService userService;
+
 
 	@RequestMapping(value = { "/announcements" }, method = RequestMethod.GET)
 	public List<Announcement> announcementList() {
@@ -41,7 +44,10 @@ public class RestAnnouncementsController {
 
 	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
 	public Announcement saveAnnouncement(@RequestBody Announcement inputAnnouncement) {
-		User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userService.getLoggedInUser();
+		if (user == null)
+			throw new RuntimeException("Not logged in");
+
 		inputAnnouncement.setId(null);
 		inputAnnouncement.setUser_id(user.getUser_id());
 		inputAnnouncement.setIs_hidden(false);

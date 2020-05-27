@@ -12,7 +12,7 @@ public class Announcement {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
 	@Column(name = "announcement_id")
-	private int id;
+	private Integer id;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Category category_id;
@@ -34,7 +34,7 @@ public class Announcement {
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
-	private byte[] image;
+	private Byte[] image;
 
 	@Column(name = "is_hidden")
 	private Boolean is_hidden = false;
@@ -51,8 +51,27 @@ public class Announcement {
 	@OneToOne(cascade = CascadeType.ALL)
 	private PrivateMessage private_message_id;
 
+	public Announcement() {
+		this(null, null, null, null, null, null, null, null, null, null, null, null, null);
+	}
 
-	public int getId() {
+	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, String status, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location, PrivateMessage private_message_id) {
+		this.id = id;
+		this.category_id = category_id;
+		this.user_id = user_id;
+		this.name = name;
+		this.price = price;
+		this.description = description;
+		this.status = status;
+		this.image = image;
+		this.is_hidden = is_hidden;
+		this.phone_number = phone_number;
+		this.datetime = datetime;
+		this.location = location;
+		this.private_message_id = private_message_id;
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
@@ -108,11 +127,11 @@ public class Announcement {
 		this.status = status;
 	}
 
-	public byte[] getImage() {
+	public Byte[] getImage() {
 		return image;
 	}
 
-	public void setImage(byte[] image) {
+	public void setImage(Byte[] image) {
 		this.image = image;
 	}
 
