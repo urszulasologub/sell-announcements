@@ -6,4 +6,5 @@ public interface UserService {
 
 	public User saveUser(User user);
 	public boolean isUserAlreadyPresent(User user);
+	public User getLoggedInUser();
 }
