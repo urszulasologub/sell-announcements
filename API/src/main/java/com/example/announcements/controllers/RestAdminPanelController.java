@@ -34,6 +34,10 @@ public class RestAdminPanelController {
 
     @RequestMapping(value = { "/admin_auth" }, method = RequestMethod.POST)
     public User saveUser(@RequestBody User inputUser) {
+        User user = userService.getLoggedInUser();
+        if (user == null)
+            throw new RuntimeException("Not logged in");
+
         inputUser.setId(null);
         inputUser.setAnnouncements(null);
         inputUser.setUser_id(null);
@@ -43,12 +47,20 @@ public class RestAdminPanelController {
 
     @RequestMapping(value = { "/admin_auth" }, method = RequestMethod.PUT)
     public User editUser(@RequestBody User inputUser) {
+        User user = userService.getLoggedInUser();
+        if (user == null)
+            throw new RuntimeException("Not logged in");
+
         return userService.saveUser(inputUser);
     }
 
 
     @RequestMapping(value = { "/admin_auth/{id}" }, method = RequestMethod.DELETE)
     public ResponseEntity<?> editUser(@PathVariable("id") Integer id) {
+        User user = userService.getLoggedInUser();
+        if (user == null)
+            throw new RuntimeException("Not logged in");
+
         Optional<User> userToDelete = userRepository.findById(id);
         if (userToDelete.isPresent()) {
             userToDelete.get().setRoles(Collections.emptySet());

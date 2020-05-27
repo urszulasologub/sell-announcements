@@ -12,7 +12,7 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
 	@Column(name = "category_id")
-	private int id;
+	private Integer id;
 
 	@Column(name = "name")
 	private String name;
@@ -21,6 +21,15 @@ public class Category {
 	@JoinColumn(name="category_id")
 	private Set<Announcement> announcements = new HashSet<Announcement>();
 
+	public Category() {
+		this(null, null, null);
+	}
+
+	public Category(Integer id, String name, Set<Announcement> announcements) {
+		this.id = id;
+		this.name = name;
+		this.announcements = announcements;
+	}
 
 	public Set<Announcement> getAnnouncements() {
 		return announcements;
@@ -30,11 +39,11 @@ public class Category {
 		this.announcements = announcements;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
