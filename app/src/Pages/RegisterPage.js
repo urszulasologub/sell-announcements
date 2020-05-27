@@ -9,7 +9,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const classes = useStyles();
 
   let loginSchema = yup.object().shape({
@@ -21,6 +21,13 @@ const LoginPage = () => {
       .string()
       .min(5)
       .required(),
+    confirmPassword: yup
+      .string()
+      .label('Confirm password')
+      .test('passwords-match', 'Passwords must match', function(value) {
+        console.log(value);
+        return this.parent.password === value;
+      }),
   });
 
   const { register, handleSubmit, errors } = useForm({
@@ -51,6 +58,14 @@ const LoginPage = () => {
           error={errors.password ? true : false}
           helperText={errors.password ? errors.password.message : ''}
         />
+        <TextField
+          name="confirmPassword"
+          inputRef={register}
+          label="confirm password"
+          fullWidth
+          error={errors.confirmPassword ? true : false}
+          helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
+        />
         <StyledButton variant="contained" type="submit">
           sign in
         </StyledButton>
@@ -62,7 +77,7 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
 
 const useStyles = makeStyles(theme => ({
   root: {
