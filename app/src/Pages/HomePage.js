@@ -1,10 +1,11 @@
-import React from "react";
+import React from 'react';
+import RootTemplate from 'templates/RootTemplate';
 
 const HomePage = () => {
   return (
-    <div>
+    <RootTemplate>
       <h1>dupa</h1>
-    </div>
+    </RootTemplate>
   );
 };
 

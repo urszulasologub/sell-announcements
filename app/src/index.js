@@ -1,10 +1,10 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import Root from "Components/Root/Root";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Root from 'components/Root/Root';
 
 ReactDOM.render(
   <React.StrictMode>
     <Root />
   </React.StrictMode>,
-  document.getElementById("root")
+  document.getElementById('root'),
 );
