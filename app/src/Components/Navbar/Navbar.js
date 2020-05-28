@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { Context } from 'components/data/Store';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles(theme => ({
 
 const Navbar = () => {
   const classes = useStyles();
+  const [state, dispatch] = useContext(Context);
 
   return (
     <div className={classes.root}>
@@ -28,9 +30,20 @@ const Navbar = () => {
           <Typography variant="h6" className={classes.title}>
             SellANN
           </Typography>
-          <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
+          {state.token ? (
+            <Button
+              color="inherit"
+              onClick={() => {
+                dispatch({ type: 'LOGIN' });
+              }}
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
     </div>

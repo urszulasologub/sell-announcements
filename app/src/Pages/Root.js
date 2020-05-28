@@ -4,10 +4,11 @@ import GlobalStyle from 'theme/GlobalStyle';
 import HomePage from 'pages/HomePage';
 import LoginPage from 'pages/LoginPage';
 import RegisterPage from 'pages/RegisterPage';
+import Store from 'components/data/Store';
 
 const Root = () => {
   return (
-    <>
+    <Store>
       <GlobalStyle />
       <BrowserRouter>
         <Switch>
@@ -16,7 +17,7 @@ const Root = () => {
           <Route exact path="/register" component={RegisterPage} />
         </Switch>
       </BrowserRouter>
-    </>
+    </Store>
   );
 };
 
