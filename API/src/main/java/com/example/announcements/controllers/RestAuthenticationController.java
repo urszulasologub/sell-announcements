@@ -65,7 +65,6 @@ public class RestAuthenticationController {
     public User registerUser(@RequestBody User user) {
         user.setId(null);
         user.setAnnouncements(null);
-        user.setUser_id(null);
         return userService.saveUser(user);
     }
 

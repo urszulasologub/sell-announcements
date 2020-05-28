@@ -37,20 +37,16 @@ public class User {
 	@JoinColumn(name="user_id")
 	private Set<Announcement> announcements = new HashSet<Announcement>();
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private User user_id;
-
 	public User() {
-		this(null, null, null, null, null, null);
+		this(null, null, null, null, null);
 	}
 
-	public User(Integer id, @NotNull(message = "Email is compulsory") @Email(message = "Email is invalid") String email, @NotNull(message = "Password is compulsory") @Length(min = 5, message = "Password should be at least 5 characters") String password, Set<Role> roles, Set<Announcement> announcements, User user_id) {
+	public User(Integer id, @NotNull(message = "Email is compulsory") @Email(message = "Email is invalid") String email, @NotNull(message = "Password is compulsory") @Length(min = 5, message = "Password should be at least 5 characters") String password, Set<Role> roles, Set<Announcement> announcements) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 		this.roles = roles;
 		this.announcements = announcements;
-		this.user_id = user_id;
 	}
 
 	public Set<Announcement> getAnnouncements() {
@@ -100,11 +96,4 @@ public class User {
 		this.roles = roles;
 	}
 
-	public User getUser_id() {
-		return user_id;
-	}
-
-	public void setUser_id(User user_id) {
-		this.user_id = user_id;
-	}
 }
