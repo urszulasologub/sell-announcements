@@ -50,9 +50,6 @@ public class Announcement {
 	@Column(name = "location")
 	private String location;
 
-	/*@OneToOne(cascade = CascadeType.ALL)
-	private PrivateMessage private_message_id;*/
-
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="announcement_id")
 	private Set<PrivateMessage> privateMessages = new HashSet<PrivateMessage>();

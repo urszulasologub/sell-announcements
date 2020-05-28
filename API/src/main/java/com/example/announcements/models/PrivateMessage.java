@@ -18,10 +18,6 @@ public class PrivateMessage {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Announcement announcement_id;
 
-	/*@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="private_message_id")
-	private Set<Announcement> announcements = new HashSet<Announcement>();*/
-
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="user_id")
 	private User buyer;

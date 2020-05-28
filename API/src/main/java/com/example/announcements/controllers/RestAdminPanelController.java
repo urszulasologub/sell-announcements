@@ -2,10 +2,7 @@ package com.example.announcements.controllers;
 
 
 import com.example.announcements.models.*;
-import com.example.announcements.repository.AnnouncementRepository;
-import com.example.announcements.repository.CategoryRepository;
-import com.example.announcements.repository.RoleRepository;
-import com.example.announcements.repository.UserRepository;
+import com.example.announcements.repository.*;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +30,9 @@ public class RestAdminPanelController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    PrivateMessageRepository privateMessageRepository;
 
 
     @RequestMapping(value = { "/admin_auth" }, method = RequestMethod.GET)
@@ -93,7 +93,7 @@ public class RestAdminPanelController {
 
     @RequestMapping(value = { "/admin_priv" }, method = RequestMethod.GET)
     public List<PrivateMessage> adminPrivList() {
-        return null; // TODO
+        return privateMessageRepository.findAll();
     }
 
 }
