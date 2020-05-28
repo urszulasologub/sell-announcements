@@ -88,7 +88,7 @@ const RegisterPage = () => {
         <StyledButton variant="contained" type="submit">
           sign in
         </StyledButton>
-        <StyledMaterialLink component={Link} to="/register">
+        <StyledMaterialLink component={Link} to="/login">
           Dou do not have an account?
         </StyledMaterialLink>
       </StyledForm>
