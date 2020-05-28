@@ -54,7 +54,6 @@ public class RestAnnouncementsController {
 		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
 		inputAnnouncement.setCategory_id(null);
-		inputAnnouncement.setPrivate_message_id(null);
 		inputAnnouncement.setStatus("UNSOLD");
 		inputAnnouncement.setDatetime(new Date());
 		return announcementRepository.save(inputAnnouncement);
