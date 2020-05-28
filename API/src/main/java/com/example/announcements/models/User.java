@@ -2,6 +2,7 @@ package com.example.announcements.models;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -27,6 +28,7 @@ public class User {
 	@NotNull(message="Password is compulsory")
 	@Length(min=5, message="Password should be at least 5 characters")
 	@Column(name = "password")
+	@JsonIgnore
 	private String password;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -78,11 +80,13 @@ public class User {
 	}
 
 
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
 
 
+	@JsonProperty
 	public void setPassword(String password) {
 		this.password = password;
 	}
