@@ -40,7 +40,6 @@ public class RestAdminPanelController {
 
         inputUser.setId(null);
         inputUser.setAnnouncements(null);
-        inputUser.setUser_id(null);
         return userService.saveUser(inputUser);
     }
 

@@ -47,9 +47,8 @@ public class RestAnnouncementsController {
 		User user = userService.getLoggedInUser();
 		if (user == null)
 			throw new RuntimeException("Not logged in");
-
 		inputAnnouncement.setId(null);
-		inputAnnouncement.setUser_id(user.getUser_id());
+		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
 		inputAnnouncement.setCategory_id(null);
 		inputAnnouncement.setPrivate_message_id(null);
