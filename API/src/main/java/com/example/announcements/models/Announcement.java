@@ -4,6 +4,8 @@ package com.example.announcements.models;
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="announcement")
@@ -48,8 +50,9 @@ public class Announcement {
 	@Column(name = "location")
 	private String location;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private PrivateMessage private_message_id;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="announcement_id")
+	private Set<PrivateMessage> privateMessages = new HashSet<PrivateMessage>();
 
 	public Announcement() {
 		this(null, null, null, null, null, null, null, null, null, null, null, null, null);
@@ -68,7 +71,6 @@ public class Announcement {
 		this.phone_number = phone_number;
 		this.datetime = datetime;
 		this.location = location;
-		this.private_message_id = private_message_id;
 	}
 
 	public Integer getId() {
@@ -167,11 +169,11 @@ public class Announcement {
 		this.location = location;
 	}
 
-	public PrivateMessage getPrivate_message_id() {
-		return private_message_id;
+	public Set<PrivateMessage> getPrivateMessages() {
+		return privateMessages;
 	}
 
-	public void setPrivate_message_id(PrivateMessage private_message_id) {
-		this.private_message_id = private_message_id;
+	public void setPrivateMessages(Set<PrivateMessage> privateMessages) {
+		this.privateMessages = privateMessages;
 	}
 }

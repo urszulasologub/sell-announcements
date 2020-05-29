@@ -15,9 +15,8 @@ public class PrivateMessage {
 	@Column(name = "message_id")
 	private Integer id;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="private_message_id")
-	private Set<Announcement> announcements = new HashSet<Announcement>();
+	@OneToOne(cascade = CascadeType.ALL)
+	private Announcement announcement_id;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="user_id")
@@ -33,11 +32,51 @@ public class PrivateMessage {
 		this(null, null, null, null, null);
 	}
 
-	public PrivateMessage(Integer id, Set<Announcement> announcements, User buyer, String message, Date datetime) {
+	public PrivateMessage(Integer id, Announcement announcement_id, User buyer, String message, Date datetime) {
 		this.id = id;
-		this.announcements = announcements;
+		this.announcement_id = announcement_id;
 		this.buyer = buyer;
 		this.message = message;
+		this.datetime = datetime;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Announcement getAnnouncement_id() {
+		return announcement_id;
+	}
+
+	public void setAnnouncement_id(Announcement announcement_id) {
+		this.announcement_id = announcement_id;
+	}
+
+	public User getBuyer() {
+		return buyer;
+	}
+
+	public void setBuyer(User buyer) {
+		this.buyer = buyer;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Date getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(Date datetime) {
 		this.datetime = datetime;
 	}
 }
