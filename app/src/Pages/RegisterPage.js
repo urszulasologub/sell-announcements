@@ -56,7 +56,7 @@ const RegisterPage = () => {
 
   return (
     <AuthTemplate>
-      <h1>sign in</h1>
+      <h1>sign up</h1>
       {succes ? <Succes>{succes}</Succes> : null}
       <StyledForm className={classes.root} onSubmit={handleSubmit(onSubmit)}>
         <TextField
@@ -86,7 +86,7 @@ const RegisterPage = () => {
           helperText={errors.confirmPassword ? errors.confirmPassword.message : ''}
         />
         <StyledButton variant="contained" type="submit">
-          sign in
+          sign up
         </StyledButton>
         <StyledMaterialLink component={Link} to="/login">
           Dou do not have an account?
