@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -51,7 +54,8 @@ public class RestAnnouncementsController {
 		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
 		inputAnnouncement.setCategory_id(null);
-		inputAnnouncement.setPrivate_message_id(null);
+		inputAnnouncement.setStatus("UNSOLD");
+		inputAnnouncement.setDatetime(new Date());
 		return announcementRepository.save(inputAnnouncement);
 	}
 
