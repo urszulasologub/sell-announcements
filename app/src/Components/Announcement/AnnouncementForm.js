@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { REMOTE_HOST } from 'config';
 import { Context } from 'components/data/Store';
+import Alert from '@material-ui/lab/Alert';
 
 const AnnouncementForm = () => {
   const classes = useStyles();
@@ -58,20 +59,22 @@ const AnnouncementForm = () => {
 
     axios(options)
       .then(e => {
-        console.log(e);
+        console.log('przeniesie na stronę z ogłoszeniem');
       })
-      .catch(e => {
-        console.log(e);
+      .catch(() => {
+        setError('api', 'api', 'Something went wrong, try again later!');
       });
   };
 
   return (
     <StyledForm className={classes.root} onSubmit={handleSubmit(onSubmit)}>
+      {errors.api ? <Alert severity="error">{errors.api.message}</Alert> : null}
       <TextField
         name="name"
         inputRef={register}
         label="Announcement Name"
         type="text"
+        fullWidth
         error={errors.name ? true : false}
         helperText={errors.name ? errors.name.message : ''}
       />
@@ -80,6 +83,7 @@ const AnnouncementForm = () => {
         inputRef={register}
         label="Price"
         type="number"
+        fullWidth
         inputProps={{ min: '0', step: '0.01' }}
         error={errors.price ? true : false}
         helperText={errors.price ? errors.price.message : ''}
@@ -89,6 +93,8 @@ const AnnouncementForm = () => {
         inputRef={register}
         label="Description"
         type="text"
+        multiline
+        fullWidth
         error={errors.description ? true : false}
         helperText={errors.description ? errors.description.message : ''}
       />
@@ -97,6 +103,7 @@ const AnnouncementForm = () => {
         inputRef={register}
         label="Phone Number"
         type="text"
+        fullWidth
         error={errors.phoneNumber ? true : false}
         helperText={errors.phoneNumber ? errors.phoneNumber.message : ''}
       />
@@ -105,6 +112,7 @@ const AnnouncementForm = () => {
         inputRef={register}
         label="Location"
         type="text"
+        fullWidth
         error={errors.location ? true : false}
         helperText={errors.location ? errors.location.message : ''}
       />

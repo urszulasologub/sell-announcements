@@ -1,11 +1,10 @@
 import React from 'react';
 import RootTemplate from 'templates/RootTemplate';
-import AnnouncementForm from 'components/Announcement/AnnouncementForm';
 
 const HomePage = () => {
   return (
     <RootTemplate>
-      <AnnouncementForm />
+      <h1>home tu bedzie lista ogloszen</h1>
     </RootTemplate>
   );
 };
