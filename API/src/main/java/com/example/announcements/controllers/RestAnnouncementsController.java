@@ -3,6 +3,7 @@ package com.example.announcements.controllers;
 import com.example.announcements.dto.AnnouncementDto;
 import com.example.announcements.models.Announcement;
 import com.example.announcements.models.Category;
+import com.example.announcements.models.PrivateMessage;
 import com.example.announcements.models.User;
 import com.example.announcements.repository.AnnouncementRepository;
 import com.example.announcements.repository.CategoryRepository;
@@ -62,7 +63,22 @@ public class RestAnnouncementsController {
 		inputAnnouncement.setIs_hidden(false);
 		inputAnnouncement.setStatus("UNSOLD");
 		inputAnnouncement.setDatetime(new Date());
-		return announcementRepository.save(inputAnnouncement);
+		Announcement newAnnouncement = new Announcement(
+				inputAnnouncement.getId(),
+				categoryRepository.findCategoryById(inputAnnouncement.getIntegerCategory_id()),
+				user,
+				inputAnnouncement.getName(),
+				inputAnnouncement.getPrice(),
+				inputAnnouncement.getDescription(),
+				inputAnnouncement.getStatus(),
+				inputAnnouncement.getImage(),
+				inputAnnouncement.getIs_hidden(),
+				inputAnnouncement.getPhone_number(),
+				inputAnnouncement.getDatetime(),
+				inputAnnouncement.getLocation()
+		);
+
+		return announcementRepository.save(newAnnouncement);
 	}
 
 

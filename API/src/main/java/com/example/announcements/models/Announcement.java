@@ -55,10 +55,10 @@ public class Announcement {
 	private Set<PrivateMessage> privateMessages = new HashSet<PrivateMessage>();
 
 	public Announcement() {
-		this(null, null, null, null, null, null, null, null, null, null, null, null, null);
+		this(null, null, null, null, null, null, null, null, null, null, null, null);
 	}
 
-	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, String status, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location, PrivateMessage private_message_id) {
+	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, String status, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location) {
 		this.id = id;
 		this.categoryId = category_id;
 		this.user_id = user_id;
