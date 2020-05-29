@@ -17,7 +17,7 @@ public class Announcement {
 	private Integer id;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Category category_id;
+	private Category categoryId;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private User user_id;
@@ -60,7 +60,7 @@ public class Announcement {
 
 	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, String status, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location, PrivateMessage private_message_id) {
 		this.id = id;
-		this.category_id = category_id;
+		this.categoryId = category_id;
 		this.user_id = user_id;
 		this.name = name;
 		this.price = price;
@@ -82,11 +82,11 @@ public class Announcement {
 	}
 
 	public Category getCategory_id() {
-		return category_id;
+		return categoryId;
 	}
 
 	public void setCategory_id(Category category_id) {
-		this.category_id = category_id;
+		this.categoryId = category_id;
 	}
 
 	public User getUser_id() {

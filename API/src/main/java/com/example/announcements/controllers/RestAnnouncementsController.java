@@ -1,5 +1,6 @@
 package com.example.announcements.controllers;
 
+import com.example.announcements.dto.AnnouncementDto;
 import com.example.announcements.models.Announcement;
 import com.example.announcements.models.Category;
 import com.example.announcements.models.User;
@@ -7,17 +8,18 @@ import com.example.announcements.repository.AnnouncementRepository;
 import com.example.announcements.repository.CategoryRepository;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RestAnnouncementsController {
@@ -36,7 +38,12 @@ public class RestAnnouncementsController {
 	public List<Announcement> announcementList() {
 		return announcementRepository.findAll();
 	}
-	//TODO: return announcements from selected category
+
+
+	@RequestMapping(value = { "/announcements/{id}"}, method = RequestMethod.GET)
+	public List<Announcement> announcementListInCategory(@PathVariable("id") Category category_id) {
+		return announcementRepository.findByCategoryId(category_id);
+	}
 
 
 	@RequestMapping(value = { "/categories" }, method = RequestMethod.GET)
@@ -46,14 +53,13 @@ public class RestAnnouncementsController {
 
 
 	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
-	public Announcement saveAnnouncement(@RequestBody Announcement inputAnnouncement) {
+	public Announcement saveAnnouncement(@RequestBody AnnouncementDto inputAnnouncement) {
 		User user = userService.getLoggedInUser();
 		if (user == null)
 			throw new RuntimeException("Not logged in");
 		inputAnnouncement.setId(null);
 		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
-		inputAnnouncement.setCategory_id(null);
 		inputAnnouncement.setStatus("UNSOLD");
 		inputAnnouncement.setDatetime(new Date());
 		return announcementRepository.save(inputAnnouncement);
