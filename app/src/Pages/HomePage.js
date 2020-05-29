@@ -1,10 +1,11 @@
 import React from 'react';
 import RootTemplate from 'templates/RootTemplate';
+import AnnouncementForm from 'components/Announcement/AnnouncementForm';
 
 const HomePage = () => {
   return (
     <RootTemplate>
-      <h1>dupa</h1>
+      <AnnouncementForm />
     </RootTemplate>
   );
 };

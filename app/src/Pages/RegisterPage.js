@@ -16,7 +16,7 @@ const RegisterPage = () => {
   const classes = useStyles();
   const [succes, setSucces] = useState(null);
 
-  let loginSchema = yup.object().shape({
+  let registerSchema = yup.object().shape({
     email: yup
       .string()
       .email()
@@ -34,7 +34,7 @@ const RegisterPage = () => {
   });
 
   const { register, handleSubmit, errors, setError } = useForm({
-    validationSchema: loginSchema,
+    validationSchema: registerSchema,
   });
 
   const onSubmit = ({ email, password }) => {
