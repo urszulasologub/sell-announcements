@@ -1,8 +1,9 @@
 import React, { createContext, useReducer } from 'react';
+import Cookie from 'js-cookie';
 import Reducer from './Reducer';
 
 const initialState = {
-  token: null,
+  token: Cookie.get('token') ? Cookie.get('token') : '',
 };
 
 const Store = ({ children }) => {

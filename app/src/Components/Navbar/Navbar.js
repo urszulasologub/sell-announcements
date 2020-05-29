@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -22,23 +22,40 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
   const classes = useStyles();
   const [state, dispatch] = useContext(Context);
+  const history = useHistory();
 
   return (
     <div className={classes.root}>
       <AppBar position="static" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" className={classes.title}>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            onClick={() => {
+              history.push('/');
+            }}
+          >
             SellANN
           </Typography>
           {state.token ? (
-            <Button
-              color="inherit"
-              onClick={() => {
-                dispatch({ type: 'LOGIN' });
-              }}
-            >
-              Logout
-            </Button>
+            <>
+              <Button
+                color="inherit"
+                onClick={() => {
+                  history.push('/announcement/create');
+                }}
+              >
+                Add Announcement
+              </Button>
+              <Button
+                color="inherit"
+                onClick={() => {
+                  dispatch({ type: 'LOGOUT' });
+                }}
+              >
+                Logout
+              </Button>
+            </>
           ) : (
             <Button color="inherit" component={Link} to="/login">
               Login
