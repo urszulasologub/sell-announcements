@@ -12,5 +12,4 @@ import java.util.List;
 @Repository
 public interface PrivateMessageRepository extends JpaRepository<PrivateMessage, Integer> {
 	public List<PrivateMessage> findByAnnouncementId(Announcement announcement_id);
-	public List<User> findBuyerByAnnouncementId(Announcement announcement_id);
 }
