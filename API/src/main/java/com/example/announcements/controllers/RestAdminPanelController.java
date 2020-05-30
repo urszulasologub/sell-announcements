@@ -89,6 +89,13 @@ public class RestAdminPanelController {
         return categoryRepository.findAll();
     }
 
+    @RequestMapping(value = {"/admin_category/create"}, method=RequestMethod.POST)
+    public Category createCategory(@RequestBody Category new_category) {
+        new_category.setId(null);
+        return categoryRepository.save(new_category);
+    }
+
+
     @RequestMapping(value = {"/admin_category/delete/{category_id}"}, method = RequestMethod.DELETE)
     public Map<String, String> deleteAnnouncement(@PathVariable("category_id") Integer category_id) {
         Map<String, String> result = new HashMap<>();
