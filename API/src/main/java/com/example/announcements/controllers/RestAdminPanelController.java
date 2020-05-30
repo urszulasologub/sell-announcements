@@ -84,6 +84,18 @@ public class RestAdminPanelController {
         return announcementRepository.findAll();
     }
 
+
+    @RequestMapping(value = { "/admin_announcement/hide/{announcement_id}" }, method = RequestMethod.PUT)
+    public Announcement hideAnnouncement(@PathVariable("announcement_id") Integer announcement_id) {
+        Optional<Announcement> announcement = announcementRepository.findById(announcement_id);
+        if (announcement.isPresent()) {
+            announcement.get().setIs_hidden(true);
+            return announcementRepository.save(announcement.get());
+        }
+        return null;
+    }
+
+
     @RequestMapping(value = { "/admin_announcement/delete/{announcement_id}" }, method = RequestMethod.DELETE)
     public Map<String, String> deleteAnnouncement(@PathVariable("announcement_id") Integer announcement_id) {
         Optional<Announcement> announcement = announcementRepository.findById(announcement_id);
