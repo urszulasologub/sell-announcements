@@ -11,9 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class RestAdminPanelController {
@@ -89,6 +87,19 @@ public class RestAdminPanelController {
     @RequestMapping(value = { "/admin_category" }, method = RequestMethod.GET)
     public List<Category> adminCategoryList() {
         return categoryRepository.findAll();
+    }
+
+    @RequestMapping(value = {"/admin_category/delete/{category_id}"}, method = RequestMethod.DELETE)
+    public Map<String, String> deleteAnnouncement(@PathVariable("category_id") Integer category_id) {
+        Map<String, String> result = new HashMap<>();
+        Optional <Category> category = categoryRepository.findById(category_id);
+        if (category.isPresent()) {
+            categoryRepository.delete(category.get())
+            result.put("result", "success");
+        } else {
+            result.put("result", "failure");
+        }
+        return result;
     }
 
     @RequestMapping(value = { "/admin_priv" }, method = RequestMethod.GET)

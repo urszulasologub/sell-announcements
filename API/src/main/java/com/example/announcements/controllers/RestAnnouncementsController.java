@@ -113,7 +113,7 @@ public class RestAnnouncementsController {
 	}
 
 
-	@RequestMapping(value = { "/announcements/hide/{id}" }, method = RequestMethod.PUT)
+	@RequestMapping(value = { "/announcements/hide" }, method = RequestMethod.PUT)
 	public Announcement saveAnnouncement(@RequestBody Announcement inputAnnouncement) {
 		User user = userService.getLoggedInUser();
 		if (user == null)
