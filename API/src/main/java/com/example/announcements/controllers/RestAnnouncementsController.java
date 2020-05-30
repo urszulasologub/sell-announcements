@@ -1,23 +1,26 @@
 package com.example.announcements.controllers;
 
+import com.example.announcements.dto.AnnouncementDto;
 import com.example.announcements.models.Announcement;
 import com.example.announcements.models.Category;
+import com.example.announcements.models.PrivateMessage;
 import com.example.announcements.models.User;
 import com.example.announcements.repository.AnnouncementRepository;
 import com.example.announcements.repository.CategoryRepository;
+import com.example.announcements.repository.UserRepository;
+import com.example.announcements.service.AnnouncementService;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 public class RestAnnouncementsController {
@@ -29,14 +32,25 @@ public class RestAnnouncementsController {
 	CategoryRepository categoryRepository;
 
 	@Autowired
+	UserRepository userRepository;
+
+	@Autowired
 	UserService userService;
+
+	@Autowired
+	AnnouncementService announcementService;
 
 
 	@RequestMapping(value = { "/announcements" }, method = RequestMethod.GET)
 	public List<Announcement> announcementList() {
-		return announcementRepository.findAll();
+		return announcementService.getAllPublicAnnouncements();
 	}
-	//TODO: return announcements from selected category
+
+
+	@RequestMapping(value = { "/announcements/category/{id}"}, method = RequestMethod.GET)
+	public List<Announcement> announcementListInCategory(@PathVariable("id") Category category_id) {
+		return announcementService.getPublicAnnouncementsInCategory(category_id);
+	}
 
 
 	@RequestMapping(value = { "/categories" }, method = RequestMethod.GET)
@@ -45,22 +59,79 @@ public class RestAnnouncementsController {
 	}
 
 
+	//TODO: handle private messages and images
 	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
-	public Announcement saveAnnouncement(@RequestBody Announcement inputAnnouncement) {
+	public Announcement saveAnnouncement(@RequestBody AnnouncementDto inputAnnouncement) {
 		User user = userService.getLoggedInUser();
 		if (user == null)
 			throw new RuntimeException("Not logged in");
 		inputAnnouncement.setId(null);
 		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
-		inputAnnouncement.setCategory_id(null);
-		inputAnnouncement.setStatus("UNSOLD");
 		inputAnnouncement.setDatetime(new Date());
-		return announcementRepository.save(inputAnnouncement);
+		Announcement newAnnouncement = new Announcement(
+				inputAnnouncement.getId(),
+				categoryRepository.findCategoryById(inputAnnouncement.getIntegerCategory_id()),
+				user,
+				inputAnnouncement.getName(),
+				inputAnnouncement.getPrice(),
+				inputAnnouncement.getDescription(),
+				inputAnnouncement.getImage(),
+				inputAnnouncement.getIs_hidden(),
+				inputAnnouncement.getPhone_number(),
+				inputAnnouncement.getDatetime(),
+				inputAnnouncement.getLocation()
+		);
+		return announcementRepository.save(newAnnouncement);
 	}
 
 
-	//TODO: add request GET for getting announcement
+	@RequestMapping(value = { "/announcements/{id}" }, method = RequestMethod.GET)
+	public Announcement getAnnouncement(@PathVariable("id") Integer announcement_id) {
+		return announcementService.getAnnouncementById(announcement_id);
+	}
 
 
+	@RequestMapping(value = { "/announcements/delete/{id}" }, method = RequestMethod.DELETE)
+	public Map<String, String> deleteAnnouncement(@PathVariable("id") Integer announcement_id) {
+		Map<String, String> result = new HashMap<>();
+		Optional <Announcement> announcement = announcementRepository.findById(announcement_id);
+		if (announcement.isPresent()) {
+			User user = userService.getLoggedInUser();
+			if (user == null)
+				throw new RuntimeException("Not logged in");
+			else if (user != announcement.get().getUser_id()) {
+				result.put("result", "failure");
+				return result;
+			}
+			announcementRepository.delete(announcement.get());
+			result.put("result", "success");
+		} else {
+			result.put("result", "failure");
+		}
+		return result;
+	}
+
+
+	@RequestMapping(value = { "/announcements/hide/{id}" }, method = RequestMethod.PUT)
+	public Announcement saveAnnouncement(@RequestBody Announcement inputAnnouncement) {
+		User user = userService.getLoggedInUser();
+		if (user == null)
+			throw new RuntimeException("Not logged in");
+		else if (user != inputAnnouncement.getUser_id())
+			throw new RuntimeException("Cannot hide someone's announcement");
+		inputAnnouncement.setIs_hidden(true);
+		return announcementRepository.save(inputAnnouncement);
+	}
+
+	@RequestMapping(value = { "announcements/user/{user_id}" }, method = RequestMethod.GET)
+	public List<Announcement> getUsersAnnouncements(@PathVariable("user_id") Integer user_id) {
+		Optional<User> user = userRepository.findById(user_id);
+		if (user.isPresent()) {
+			if (userService.getLoggedInUser() == user.get())
+				return announcementService.getUsersAnnouncements(user.get());
+			return announcementService.getUsersPublicAnnouncements(user.get());
+		}
+		return null;
+	}
 }
