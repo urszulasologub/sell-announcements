@@ -16,11 +16,11 @@ public class Announcement {
 	@Column(name = "announcement_id")
 	private Integer id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private Category category_id;
+	@ManyToOne(cascade = CascadeType.DETACH)
+	private Category categoryId;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private User user_id;
+	@ManyToOne(cascade = CascadeType.DETACH)
+	private User userId;
 
 	@Column(name = "announcement_name", length=50)
 	private String name;
@@ -30,9 +30,6 @@ public class Announcement {
 
 	@Column(name = "description", length=5000)
 	private String description;
-
-	@Column(name = "status", length=50)
-	private String status;
 
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
@@ -55,17 +52,16 @@ public class Announcement {
 	private Set<PrivateMessage> privateMessages = new HashSet<PrivateMessage>();
 
 	public Announcement() {
-		this(null, null, null, null, null, null, null, null, null, null, null, null, null);
+		this(null, null, null, null, null, null, null, null, null, null, null);
 	}
 
-	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, String status, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location, PrivateMessage private_message_id) {
+	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location) {
 		this.id = id;
-		this.category_id = category_id;
-		this.user_id = user_id;
+		this.categoryId = category_id;
+		this.userId = user_id;
 		this.name = name;
 		this.price = price;
 		this.description = description;
-		this.status = status;
 		this.image = image;
 		this.is_hidden = is_hidden;
 		this.phone_number = phone_number;
@@ -82,19 +78,19 @@ public class Announcement {
 	}
 
 	public Category getCategory_id() {
-		return category_id;
+		return categoryId;
 	}
 
 	public void setCategory_id(Category category_id) {
-		this.category_id = category_id;
+		this.categoryId = category_id;
 	}
 
 	public User getUser_id() {
-		return user_id;
+		return userId;
 	}
 
 	public void setUser_id(User user_id) {
-		this.user_id = user_id;
+		this.userId = user_id;
 	}
 
 	public String getName() {
@@ -119,14 +115,6 @@ public class Announcement {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public Byte[] getImage() {
