@@ -134,4 +134,16 @@ public class RestAnnouncementsController {
 		}
 		return null;
 	}
+
+
+	@RequestMapping(value = { "announcements/search/{keyword}" }, method = RequestMethod.GET)
+	public List<Announcement> getFilteredAnnouncements(@PathVariable("keyword") String keyword) {
+		List <Announcement> announcements = announcementService.getAllPublicAnnouncements();
+		List <Announcement> filteredAnnouncements = new ArrayList<>();
+		for (Announcement announcement : announcements) {
+			if (announcement.getName().toLowerCase().contains(keyword.toLowerCase()) || announcement.getDescription().toLowerCase().contains(keyword.toLowerCase()))
+				filteredAnnouncements.add(announcement);
+		}
+		return filteredAnnouncements;
+	}
 }
