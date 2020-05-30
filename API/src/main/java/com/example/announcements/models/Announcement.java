@@ -20,7 +20,7 @@ public class Announcement {
 	private Category categoryId;
 
 	@ManyToOne(cascade = CascadeType.DETACH)
-	private User user_id;
+	private User userId;
 
 	@Column(name = "announcement_name", length=50)
 	private String name;
@@ -58,7 +58,7 @@ public class Announcement {
 	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location) {
 		this.id = id;
 		this.categoryId = category_id;
-		this.user_id = user_id;
+		this.userId = user_id;
 		this.name = name;
 		this.price = price;
 		this.description = description;
@@ -86,11 +86,11 @@ public class Announcement {
 	}
 
 	public User getUser_id() {
-		return user_id;
+		return userId;
 	}
 
 	public void setUser_id(User user_id) {
-		this.user_id = user_id;
+		this.userId = user_id;
 	}
 
 	public String getName() {

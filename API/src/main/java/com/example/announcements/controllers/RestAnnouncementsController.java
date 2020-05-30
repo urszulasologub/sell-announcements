@@ -7,6 +7,7 @@ import com.example.announcements.models.PrivateMessage;
 import com.example.announcements.models.User;
 import com.example.announcements.repository.AnnouncementRepository;
 import com.example.announcements.repository.CategoryRepository;
+import com.example.announcements.repository.UserRepository;
 import com.example.announcements.service.AnnouncementService;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,9 @@ public class RestAnnouncementsController {
 
 	@Autowired
 	CategoryRepository categoryRepository;
+
+	@Autowired
+	UserRepository userRepository;
 
 	@Autowired
 	UserService userService;
@@ -118,5 +122,16 @@ public class RestAnnouncementsController {
 			throw new RuntimeException("Cannot hide someone's announcement");
 		inputAnnouncement.setIs_hidden(true);
 		return announcementRepository.save(inputAnnouncement);
+	}
+
+	@RequestMapping(value = { "announcements/user/{user_id}" }, method = RequestMethod.GET)
+	public List<Announcement> getUsersAnnouncements(@PathVariable("user_id") Integer user_id) {
+		Optional<User> user = userRepository.findById(user_id);
+		if (user.isPresent()) {
+			if (userService.getLoggedInUser() == user.get())
+				return announcementService.getUsersAnnouncements(user.get());
+			return announcementService.getUsersPublicAnnouncements(user.get());
+		}
+		return null;
 	}
 }

@@ -55,4 +55,20 @@ public class AnnouncementServiceImp implements AnnouncementService {
 		}
 		return null;
 	}
+
+	@Override
+	public List<Announcement> getUsersPublicAnnouncements(User user_id) {
+		List<Announcement> announcements = new ArrayList<>();
+		for (Announcement an : getUsersAnnouncements(user_id)) {
+			if (!an.getIs_hidden())
+				announcements.add(an);
+		}
+		return announcements;
+	}
+
+	@Override
+	public List<Announcement> getUsersAnnouncements(User user_id) {
+		return announcementRepository.findByUserId(user_id);
+	}
+
 }
