@@ -41,7 +41,7 @@ public class RestAnnouncementsController {
 	}
 
 
-	@RequestMapping(value = { "/announcements/{id}"}, method = RequestMethod.GET)
+	@RequestMapping(value = { "/announcements/category/{id}"}, method = RequestMethod.GET)
 	public List<Announcement> announcementListInCategory(@PathVariable("id") Category category_id) {
 		return announcementRepository.findByCategoryId(category_id);
 	}
@@ -53,6 +53,7 @@ public class RestAnnouncementsController {
 	}
 
 
+	//TODO: handle private messages and images
 	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
 	public Announcement saveAnnouncement(@RequestBody AnnouncementDto inputAnnouncement) {
 		User user = userService.getLoggedInUser();
@@ -77,12 +78,14 @@ public class RestAnnouncementsController {
 				inputAnnouncement.getDatetime(),
 				inputAnnouncement.getLocation()
 		);
-
 		return announcementRepository.save(newAnnouncement);
 	}
 
 
-	//TODO: add request GET for getting announcement
+	@RequestMapping(value = { "/announcements/{id}" }, method = RequestMethod.GET)
+	public Optional<Announcement> getAnnouncement(@PathVariable("id") Integer announcement_id) {
+		return announcementRepository.findById(announcement_id);
+	}
 
 
 }
