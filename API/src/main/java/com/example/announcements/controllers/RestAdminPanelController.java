@@ -11,9 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class RestAdminPanelController {
@@ -86,9 +84,53 @@ public class RestAdminPanelController {
         return announcementRepository.findAll();
     }
 
+
+    @RequestMapping(value = { "/admin_announcement/hide/{announcement_id}" }, method = RequestMethod.PUT)
+    public Announcement hideAnnouncement(@PathVariable("announcement_id") Integer announcement_id) {
+        Optional<Announcement> announcement = announcementRepository.findById(announcement_id);
+        if (announcement.isPresent()) {
+            announcement.get().setIs_hidden(true);
+            return announcementRepository.save(announcement.get());
+        }
+        return null;
+    }
+
+
+    @RequestMapping(value = { "/admin_announcement/delete/{announcement_id}" }, method = RequestMethod.DELETE)
+    public Map<String, String> deleteAnnouncement(@PathVariable("announcement_id") Integer announcement_id) {
+        Optional<Announcement> announcement = announcementRepository.findById(announcement_id);
+        Map<String, String> result = new HashMap<>();
+        if (announcement.isPresent()) {
+            announcementRepository.delete(announcement.get());
+            result.put("result", "success");
+        } else {
+            result.put("result", "failure");
+        }
+        return result;
+    }
+
     @RequestMapping(value = { "/admin_category" }, method = RequestMethod.GET)
     public List<Category> adminCategoryList() {
         return categoryRepository.findAll();
+    }
+
+    @RequestMapping(value = {"/admin_category/create"}, method=RequestMethod.POST)
+    public Category createCategory(@RequestBody Category new_category) {
+        new_category.setId(null);
+        return categoryRepository.save(new_category);
+    }
+
+    @RequestMapping(value = {"/admin_category/delete/{category_id}"}, method = RequestMethod.DELETE)
+    public Map<String, String> deleteCategory(@PathVariable("category_id") Integer category_id) {
+        Map<String, String> result = new HashMap<>();
+        Optional <Category> category = categoryRepository.findById(category_id);
+        if (category.isPresent()) {
+            categoryRepository.delete(category.get());
+            result.put("result", "success");
+        } else {
+            result.put("result", "failure");
+        }
+        return result;
     }
 
     @RequestMapping(value = { "/admin_priv" }, method = RequestMethod.GET)
