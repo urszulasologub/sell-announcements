@@ -84,6 +84,19 @@ public class RestAdminPanelController {
         return announcementRepository.findAll();
     }
 
+    @RequestMapping(value = { "/admin_announcement/delete/{announcement_id}" }, method = RequestMethod.DELETE)
+    public Map<String, String> deleteAnnouncement(@PathVariable("announcement_id") Integer announcement_id) {
+        Optional<Announcement> announcement = announcementRepository.findById(announcement_id);
+        Map<String, String> result = new HashMap<>();
+        if (announcement.isPresent()) {
+            announcementRepository.delete(announcement.get());
+            result.put("result", "success");
+        } else {
+            result.put("result", "failure");
+        }
+        return result;
+    }
+
     @RequestMapping(value = { "/admin_category" }, method = RequestMethod.GET)
     public List<Category> adminCategoryList() {
         return categoryRepository.findAll();
@@ -95,9 +108,8 @@ public class RestAdminPanelController {
         return categoryRepository.save(new_category);
     }
 
-
     @RequestMapping(value = {"/admin_category/delete/{category_id}"}, method = RequestMethod.DELETE)
-    public Map<String, String> deleteAnnouncement(@PathVariable("category_id") Integer category_id) {
+    public Map<String, String> deleteCategory(@PathVariable("category_id") Integer category_id) {
         Map<String, String> result = new HashMap<>();
         Optional <Category> category = categoryRepository.findById(category_id);
         if (category.isPresent()) {
