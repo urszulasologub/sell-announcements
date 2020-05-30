@@ -80,6 +80,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("announcements/user/{user_id}").permitAll()
 				.antMatchers("/announcements/hide/{id}").hasAnyAuthority("ADMIN_USER", "SITE_USER")
 				.antMatchers("/announcements/delete/{id}").hasAnyAuthority("ADMIN_USER", "SITE_USER")
+				.antMatchers("/announcements/{announcement_id}/messages/{user_id}").hasAnyAuthority("ADMIN_USER", "SITE_USER")
+				.antMatchers("/announcements/{announcement_id}/messages").hasAnyAuthority("ADMIN_USER", "SITE_USER")
 				.anyRequest().authenticated()
 				.and()
 				.csrf().disable()

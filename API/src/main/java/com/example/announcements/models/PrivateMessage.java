@@ -16,7 +16,7 @@ public class PrivateMessage {
 	private Integer id;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	private Announcement announcement_id;
+	private Announcement announcementId;
 
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name="user_id")
@@ -34,7 +34,7 @@ public class PrivateMessage {
 
 	public PrivateMessage(Integer id, Announcement announcement_id, User buyer, String message, Date datetime) {
 		this.id = id;
-		this.announcement_id = announcement_id;
+		this.announcementId = announcement_id;
 		this.buyer = buyer;
 		this.message = message;
 		this.datetime = datetime;
@@ -49,11 +49,11 @@ public class PrivateMessage {
 	}
 
 	public Announcement getAnnouncement_id() {
-		return announcement_id;
+		return announcementId;
 	}
 
 	public void setAnnouncement_id(Announcement announcement_id) {
-		this.announcement_id = announcement_id;
+		this.announcementId = announcement_id;
 	}
 
 	public User getBuyer() {
