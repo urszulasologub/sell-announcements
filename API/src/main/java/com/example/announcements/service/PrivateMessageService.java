@@ -9,4 +9,5 @@ import java.util.List;
 public interface PrivateMessageService {
 
 	public List<PrivateMessage> getConversationWithUser(Announcement announcement_id, User buyer_id);
+	public List<User> getUsersWhoSentMessageToAnnouncement(Announcement announcement_id);
 }

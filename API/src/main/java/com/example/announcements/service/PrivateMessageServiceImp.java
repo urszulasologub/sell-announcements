@@ -36,4 +36,9 @@ public class PrivateMessageServiceImp implements PrivateMessageService {
 		}
 		return conversation;
 	}
+
+	@Override
+	public List<User> getUsersWhoSentMessageToAnnouncement(Announcement announcement_id) {
+		return privateMessageRepository.findBuyerByAnnouncementId(announcement_id);
+	}
 }

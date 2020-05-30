@@ -40,4 +40,9 @@ public class RestPrivateMessagesController {
 	public List<PrivateMessage> getMessages(@PathVariable("announcement_id") Announcement announcement_id, @PathVariable("user_id") User buyer_id) {
 		return privateMessageService.getConversationWithUser(announcement_id, buyer_id);
 	}
+
+	@RequestMapping(value = { "/announcements/{announcement_id}/messages" }, method = RequestMethod.GET)
+	public List<User> getUsersWhoSentMessage(@PathVariable("announcement_id") Announcement announcement_id) {
+		return privateMessageService.getUsersWhoSentMessageToAnnouncement(announcement_id);
+	}
 }
