@@ -16,10 +16,10 @@ public class Announcement {
 	@Column(name = "announcement_id")
 	private Integer id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	private Category categoryId;
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.DETACH)
 	private User user_id;
 
 	@Column(name = "announcement_name", length=50)

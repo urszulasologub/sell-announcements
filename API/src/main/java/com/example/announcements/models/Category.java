@@ -17,7 +17,7 @@ public class Category {
 	@Column(name = "name")
 	private String name;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.DETACH)
 	@JoinColumn(name="category_id")
 	private Set<Announcement> announcements = new HashSet<Announcement>();
 

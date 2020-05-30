@@ -17,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class RestAnnouncementsController {
@@ -87,5 +84,25 @@ public class RestAnnouncementsController {
 		return announcementRepository.findById(announcement_id);
 	}
 
+
+	@RequestMapping(value = { "/announcements/delete/{id}" }, method = RequestMethod.DELETE)
+	public Map<String, String> deleteAnnouncement(@PathVariable("id") Integer announcement_id) {
+		Map<String, String> result = new HashMap<>();
+		Optional <Announcement> announcement = announcementRepository.findById(announcement_id);
+		if (announcement.isPresent()) {
+			User user = userService.getLoggedInUser();
+			if (user == null)
+				throw new RuntimeException("Not logged in");
+			else if (user != announcement.get().getUser_id()) {
+				result.put("result", "failure");
+				return result;
+			}
+			announcementRepository.delete(announcement.get());
+			result.put("result", "success");
+		} else {
+			result.put("result", "failure");
+		}
+		return result;
+	}
 
 }
