@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import RootTemplate from 'templates/RootTemplate';
+import AnnouncementItem from 'components/Announcement/AnnouncementItem';
 import { REMOTE_HOST } from 'config';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
@@ -36,9 +37,12 @@ const HomePage = () => {
 
   return (
     <RootTemplate>
-      {error ? <Alert severity="error">{error}</Alert> : null}
-      {loading ? <StyledCircularProgress /> : null}
-      <h1>home tu bedzie lista ogloszen</h1>
+      <Wrapper>
+        {error ? <Alert severity="error">{error}</Alert> : null}
+        {loading ? <StyledCircularProgress /> : null}
+        <h4>Announcement:</h4>
+        {data ? data.map(el => <AnnouncementItem data={el} key={el.id} />) : null}
+      </Wrapper>
     </RootTemplate>
   );
 };
@@ -46,5 +50,13 @@ const HomePage = () => {
 export default HomePage;
 
 const StyledCircularProgress = styled(CircularProgress)`
-  margin: auto;
+  margin: 0 auto;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px auto;
+  width: 90%;
 `;

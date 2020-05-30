@@ -4,6 +4,7 @@ import HomePage from 'pages/HomePage';
 import LoginPage from 'pages/LoginPage';
 import RegisterPage from 'pages/RegisterPage';
 import AnnouncementCreatePage from 'pages/AnnouncementCreatePage';
+import AnnouncementShowPage from 'pages/AnnouncementShowPage';
 import { Context } from 'components/data/Store';
 
 const Routes = () => {
@@ -14,6 +15,7 @@ const Routes = () => {
         <Route exact path="/" component={HomePage} />
         <Route exact path="/login" component={LoginPage} />
         <Route exact path="/register" component={RegisterPage} />
+        <Route exact path="/announcement/:id" component={AnnouncementShowPage} />
         {state.token ? (
           <>
             <Route exact path="/announcement/create" component={AnnouncementCreatePage} />
