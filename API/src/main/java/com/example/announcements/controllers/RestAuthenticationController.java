@@ -1,5 +1,6 @@
 package com.example.announcements.controllers;
 
+import com.example.announcements.models.Role;
 import com.example.announcements.models.User;
 import com.example.announcements.repository.RoleRepository;
 import com.example.announcements.service.JwtService;
@@ -49,6 +50,11 @@ public class RestAuthenticationController {
 
             result.put("result", "success");
             result.put("session", jwtService.generateJwtToken(loggedInUser.getId(), new Date(System.currentTimeMillis() + 24*3600*1000)));
+            Boolean is_admin = false;
+            for (Role role : loggedInUser.getRoles())
+                if (role.getRole().toString().equals("ADMIN_USER"))
+                    is_admin = true;
+            result.put("is_admin", is_admin.toString());
         } else {
             result.put("result", "failure");
         }
