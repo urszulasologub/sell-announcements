@@ -7,6 +7,7 @@ import com.example.announcements.models.PrivateMessage;
 import com.example.announcements.models.User;
 import com.example.announcements.repository.AnnouncementRepository;
 import com.example.announcements.repository.CategoryRepository;
+import com.example.announcements.service.AnnouncementService;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.ws.Response;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -31,16 +33,19 @@ public class RestAnnouncementsController {
 	@Autowired
 	UserService userService;
 
+	@Autowired
+	AnnouncementService announcementService;
+
 
 	@RequestMapping(value = { "/announcements" }, method = RequestMethod.GET)
 	public List<Announcement> announcementList() {
-		return announcementRepository.findAll();
+		return announcementService.getAllPublicAnnouncements();
 	}
 
 
 	@RequestMapping(value = { "/announcements/category/{id}"}, method = RequestMethod.GET)
 	public List<Announcement> announcementListInCategory(@PathVariable("id") Category category_id) {
-		return announcementRepository.findByCategoryId(category_id);
+		return announcementService.getPublicAnnouncementsInCategory(category_id);
 	}
 
 
@@ -59,7 +64,6 @@ public class RestAnnouncementsController {
 		inputAnnouncement.setId(null);
 		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
-		inputAnnouncement.setStatus("UNSOLD");
 		inputAnnouncement.setDatetime(new Date());
 		Announcement newAnnouncement = new Announcement(
 				inputAnnouncement.getId(),
@@ -68,7 +72,6 @@ public class RestAnnouncementsController {
 				inputAnnouncement.getName(),
 				inputAnnouncement.getPrice(),
 				inputAnnouncement.getDescription(),
-				inputAnnouncement.getStatus(),
 				inputAnnouncement.getImage(),
 				inputAnnouncement.getIs_hidden(),
 				inputAnnouncement.getPhone_number(),
@@ -80,8 +83,8 @@ public class RestAnnouncementsController {
 
 
 	@RequestMapping(value = { "/announcements/{id}" }, method = RequestMethod.GET)
-	public Optional<Announcement> getAnnouncement(@PathVariable("id") Integer announcement_id) {
-		return announcementRepository.findById(announcement_id);
+	public Announcement getAnnouncement(@PathVariable("id") Integer announcement_id) {
+		return announcementService.getAnnouncementById(announcement_id);
 	}
 
 
@@ -105,4 +108,15 @@ public class RestAnnouncementsController {
 		return result;
 	}
 
+
+	@RequestMapping(value = { "/announcements/hide/{id}" }, method = RequestMethod.PUT)
+	public Announcement saveAnnouncement(@RequestBody Announcement inputAnnouncement) {
+		User user = userService.getLoggedInUser();
+		if (user == null)
+			throw new RuntimeException("Not logged in");
+		else if (user != inputAnnouncement.getUser_id())
+			throw new RuntimeException("Cannot hide someone's announcement");
+		inputAnnouncement.setIs_hidden(true);
+		return announcementRepository.save(inputAnnouncement);
+	}
 }

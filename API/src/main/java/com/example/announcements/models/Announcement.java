@@ -31,9 +31,6 @@ public class Announcement {
 	@Column(name = "description", length=5000)
 	private String description;
 
-	@Column(name = "status", length=50)
-	private String status;
-
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	private Byte[] image;
@@ -55,17 +52,16 @@ public class Announcement {
 	private Set<PrivateMessage> privateMessages = new HashSet<PrivateMessage>();
 
 	public Announcement() {
-		this(null, null, null, null, null, null, null, null, null, null, null, null);
+		this(null, null, null, null, null, null, null, null, null, null, null);
 	}
 
-	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, String status, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location) {
+	public Announcement(Integer id, Category category_id, User user_id, String name, Float price, String description, Byte[] image, Boolean is_hidden, String phone_number, Date datetime, String location) {
 		this.id = id;
 		this.categoryId = category_id;
 		this.user_id = user_id;
 		this.name = name;
 		this.price = price;
 		this.description = description;
-		this.status = status;
 		this.image = image;
 		this.is_hidden = is_hidden;
 		this.phone_number = phone_number;
@@ -119,14 +115,6 @@ public class Announcement {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public String getStatus() {
-		return status;
-	}
-
-	public void setStatus(String status) {
-		this.status = status;
 	}
 
 	public Byte[] getImage() {
