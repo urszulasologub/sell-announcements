@@ -94,7 +94,7 @@ public class RestAdminPanelController {
         Map<String, String> result = new HashMap<>();
         Optional <Category> category = categoryRepository.findById(category_id);
         if (category.isPresent()) {
-            categoryRepository.delete(category.get())
+            categoryRepository.delete(category.get());
             result.put("result", "success");
         } else {
             result.put("result", "failure");
