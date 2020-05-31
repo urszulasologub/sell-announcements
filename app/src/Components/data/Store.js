@@ -4,6 +4,7 @@ import Reducer from './Reducer';
 
 const initialState = {
   token: Cookie.get('token') ? Cookie.get('token') : '',
+  admin: Cookie.get('admin') ? Cookie.get('admin') : '',
 };
 
 const Store = ({ children }) => {

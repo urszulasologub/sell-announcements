@@ -41,7 +41,7 @@ const LoginPage = () => {
 
     axios(options)
       .then(d => {
-        dispatch({ type: 'LOGIN', payload: d.data.session });
+        dispatch({ type: 'LOGIN', payload: d.data });
         history.push('/');
       })
       .catch(() => {

@@ -39,6 +39,17 @@ const Navbar = () => {
           </Typography>
           {state.token ? (
             <>
+              {state.admin ? (
+                <Button
+                  color="inherit"
+                  onClick={() => {
+                    // history.push('/announcement/create');
+                    console.log('admin panel');
+                  }}
+                >
+                  Admin Panel
+                </Button>
+              ) : null}
               <Button
                 color="inherit"
                 onClick={() => {
