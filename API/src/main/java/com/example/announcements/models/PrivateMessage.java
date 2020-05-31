@@ -8,7 +8,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="private_message")
-public class PrivateMessage {
+public class PrivateMessage implements Comparable<PrivateMessage> {
 
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
@@ -78,5 +78,10 @@ public class PrivateMessage {
 
 	public void setDatetime(Date datetime) {
 		this.datetime = datetime;
+	}
+
+	@Override
+	public int compareTo(PrivateMessage o) {
+		return (this.getDatetime().compareTo(o.getDatetime()));
 	}
 }
