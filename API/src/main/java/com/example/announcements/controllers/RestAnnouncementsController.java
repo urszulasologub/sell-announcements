@@ -69,6 +69,8 @@ public class RestAnnouncementsController {
 		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
 		inputAnnouncement.setDatetime(new Date());
+		if (inputAnnouncement.getPrice() <= 0.0)
+			throw new RuntimeException("Price cannot be negative!");
 		Announcement newAnnouncement = new Announcement(
 				inputAnnouncement.getId(),
 				categoryRepository.findCategoryById(inputAnnouncement.getIntegerCategory_id()),
