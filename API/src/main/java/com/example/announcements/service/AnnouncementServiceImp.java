@@ -49,17 +49,14 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	public Announcement getAnnouncementById(Integer id) {
 		Optional<Announcement> announcement = announcementRepository.findById(id);
 		if (announcement.isPresent()) {
-			if (announcement.get().getIs_hidden()) {
-				User user = userService.getLoggedInUser();
-				if (user == null)
-					return null;
-				else if (user != announcement.get().getUser_id())
-					return null;
-				return announcement.get();
-			}
+			User user = userService.getLoggedInUser();
+			if (user == null)
+				return null;
+			else if (user != announcement.get().getUser_id())
+				return null;
 			return announcement.get();
 		}
-		return null;
+		throw new RuntimeException("Couldn't find an announcement");
 	}
 
 	@Override

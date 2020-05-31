@@ -59,7 +59,6 @@ public class RestAnnouncementsController {
 	}
 
 
-	//TODO: handle images
 	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
 	public Announcement saveAnnouncement(@RequestBody AnnouncementDto inputAnnouncement) {
 		User user = userService.getLoggedInUser();
@@ -69,8 +68,16 @@ public class RestAnnouncementsController {
 		inputAnnouncement.setUser_id(user);
 		inputAnnouncement.setIs_hidden(false);
 		inputAnnouncement.setDatetime(new Date());
-		if (inputAnnouncement.getPrice() <= 0.0)
-			throw new RuntimeException("Price cannot be negative!");
+		if (inputAnnouncement.getPrice() == null || inputAnnouncement.getPrice() <= 0.0)
+			throw new RuntimeException("Incorrect price");
+		else if (inputAnnouncement.getIntegerCategory_id() == null)
+			throw new RuntimeException("category_id is missing");
+		else if (inputAnnouncement.getLocation() == null)
+			throw new RuntimeException("location is missing");
+		else if (inputAnnouncement.getName() == null)
+			throw new RuntimeException("name is missing");
+		else if (inputAnnouncement.getDescription() == null)
+			throw new RuntimeException("description is missing");
 		Announcement newAnnouncement = new Announcement(
 				inputAnnouncement.getId(),
 				categoryRepository.findCategoryById(inputAnnouncement.getIntegerCategory_id()),
