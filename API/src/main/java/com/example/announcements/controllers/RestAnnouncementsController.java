@@ -59,7 +59,7 @@ public class RestAnnouncementsController {
 	}
 
 
-	//TODO: handle private messages and images
+	//TODO: handle images
 	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
 	public Announcement saveAnnouncement(@RequestBody AnnouncementDto inputAnnouncement) {
 		User user = userService.getLoggedInUser();

@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="announcement")
-public class Announcement {
+public class Announcement implements Comparable<Announcement> {
 
 	@Id
 	@GeneratedValue(strategy =  GenerationType.AUTO)
@@ -163,5 +163,10 @@ public class Announcement {
 
 	public void setPrivateMessages(Set<PrivateMessage> privateMessages) {
 		this.privateMessages = privateMessages;
+	}
+
+	@Override
+	public int compareTo(Announcement o) {
+		return (this.getDatetime().compareTo(o.getDatetime()));
 	}
 }
