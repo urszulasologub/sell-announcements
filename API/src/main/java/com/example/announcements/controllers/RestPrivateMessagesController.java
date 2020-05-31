@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class RestPrivateMessagesController {
@@ -51,7 +52,9 @@ public class RestPrivateMessagesController {
 		User user = userService.getLoggedInUser();
 		if (user == null)
 			throw new RuntimeException("Not logged in");
-		//TODO: check if announcement exists
+		Optional<Announcement> existingAnnouncement = announcementRepository.findById(announcement_id.getId());
+		if (!existingAnnouncement.isPresent())
+			throw new RuntimeException("Announcement does not exist!");
 		inputMessage.setDatetime(Calendar.getInstance().getTime());
 		inputMessage.setBuyer(user);
 		inputMessage.setAnnouncement_id(announcement_id);

@@ -59,22 +59,19 @@ public class RestAdminPanelController {
         User user = userService.getLoggedInUser();
         if (user == null)
             throw new RuntimeException("Not logged in");
-
         return userService.saveUser(inputUser);
     }
 
 
     @RequestMapping(value = { "/admin_auth/{id}" }, method = RequestMethod.DELETE)
-    public ResponseEntity<?> editUser(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Integer id) {
         User user = userService.getLoggedInUser();
         if (user == null)
             throw new RuntimeException("Not logged in");
-
         Optional<User> userToDelete = userRepository.findById(id);
         if (userToDelete.isPresent()) {
             userToDelete.get().setRoles(Collections.emptySet());
             userRepository.save(userToDelete.get());
-
             userRepository.delete(userToDelete.get());
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } else {
@@ -149,3 +146,4 @@ public class RestAdminPanelController {
         return userService.saveAdminUser(user);
     }
 }
+
