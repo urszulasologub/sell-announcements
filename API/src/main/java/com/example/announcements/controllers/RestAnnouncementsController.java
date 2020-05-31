@@ -12,6 +12,7 @@ import com.example.announcements.service.AnnouncementService;
 import com.example.announcements.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,7 +61,7 @@ public class RestAnnouncementsController {
 
 
 	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
-	public Announcement saveAnnouncement(@RequestBody AnnouncementDto inputAnnouncement) {
+	public Announcement saveAnnouncement(AnnouncementDto inputAnnouncement) {
 		User user = userService.getLoggedInUser();
 		if (user == null)
 			throw new RuntimeException("Not logged in");
