@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { REMOTE_HOST } from 'config';
 import noImage from 'assets/noImage.png';
+import { useHistory } from 'react-router-dom';
 
 const Card = styled.div`
   background-color: white;
@@ -57,8 +58,13 @@ const Img = styled.li`
 `;
 
 const AnnouncementItem = ({ data }) => {
+  const history = useHistory();
   return (
-    <Card>
+    <Card
+      onClick={() => {
+        history.push(`/announcements/${data.id}`);
+      }}
+    >
       <Wrapper>
         {data.image ? <Img background={REMOTE_HOST + data.image} /> : <Img />}
         <TextWrapper>

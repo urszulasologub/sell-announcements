@@ -9,10 +9,12 @@ import Button from '@material-ui/core/Button';
 import { REMOTE_HOST } from 'config';
 import { Context } from 'components/data/Store';
 import Alert from '@material-ui/lab/Alert';
+import { useHistory } from 'react-router-dom';
 
 const AnnouncementForm = () => {
   const classes = useStyles();
   const [state] = useContext(Context);
+  const history = useHistory();
 
   let announcementSchema = yup.object().shape({
     name: yup
@@ -59,7 +61,7 @@ const AnnouncementForm = () => {
 
     axios(options)
       .then(e => {
-        console.log('przeniesie na stronę z ogłoszeniem');
+        history.push(`/announcements/${e.data.id}`);
       })
       .catch(() => {
         setError('api', 'api', 'Something went wrong, try again later!');

@@ -21,8 +21,6 @@ const AnnouncementShowPage = value => {
       url: `${REMOTE_HOST}/announcements/${value.match.params.id}`,
     };
 
-    console.log(options);
-
     setLoading(true);
 
     axios(options)
@@ -35,19 +33,28 @@ const AnnouncementShowPage = value => {
       .then(() => {
         setLoading(false);
       });
-  }, []);
+  }, [value.match.params.id]);
 
   return (
     <RootTemplate>
-      {console.log(data)}
       {error ? <Alert severity="error">{error}</Alert> : null}
       {loading ? <StyledCircularProgress /> : null}
-      <Card>
-        <Wrapper>
-          {/* {data.image ? <Img background={REMOTE_HOST + data.image} /> : <Img />} */}
-          <h1>OGŁOSZENIE</h1>
-        </Wrapper>
-      </Card>
+      {data ? (
+        <Card>
+          <Wrapper>
+            {data.image ? <Img background={REMOTE_HOST + data.image} /> : <Img />}
+            <TitleWrapper>
+              <StyledName>{data.name}</StyledName>
+              <StyledPrice>{data.price} $</StyledPrice>
+              <StyledLocation>location: {data.location}</StyledLocation>
+              <StyledLocation>phone number: {data.phone_number}</StyledLocation>
+            </TitleWrapper>
+          </Wrapper>
+          <StyledDescriptionTitle>Description:</StyledDescriptionTitle>
+          <StyledDescription>{data.description}</StyledDescription>
+          <br />
+        </Card>
+      ) : null}
     </RootTemplate>
   );
 };
@@ -58,27 +65,62 @@ const StyledCircularProgress = styled(CircularProgress)`
   margin: 0 auto;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 10px 15px;
+`;
+
+const StyledName = styled.div`
+  font-size: 25px;
+  font-weight: bold;
+`;
+
+const StyledDescriptionTitle = styled.div`
+  margin: 10px 20px;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const StyledDescription = styled.div`
+  margin: 5px 20px;
+  font-size: 15px;
+`;
+
 const Card = styled.div`
   background-color: white;
   border-radius: 5px;
   box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.4);
   margin: 10px auto;
-  width: 80%;
+  width: 60%;
 `;
 
 const Wrapper = styled.div`
   margin: 10px 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 `;
 
-const Img = styled.li`
+const Img = styled.div`
   list-style: none;
-  width: 130px;
-  height: 130px;
+  width: 350px;
+  height: 350px;
   background-color: #e3e3e3;
   background-image: url(${({ background }) => (background ? background : noImage)});
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 4px;
+  margin: 15px 0;
+`;
+
+const StyledLocation = styled.div`
+  font-size: 15px;
+  font-weight: bold;
+  margin: 5px 0;
+`;
+
+const StyledPrice = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0 0;
 `;
