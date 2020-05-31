@@ -5,6 +5,7 @@ import Reducer from './Reducer';
 const initialState = {
   token: Cookie.get('token') ? Cookie.get('token') : '',
   admin: Cookie.get('admin') ? Cookie.get('admin') : '',
+  userId: Cookie.get('userId') ? Cookie.get('userId') : '',
 };
 
 const Store = ({ children }) => {
