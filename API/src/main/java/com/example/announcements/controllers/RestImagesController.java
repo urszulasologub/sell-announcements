@@ -29,7 +29,7 @@ public class RestImagesController  {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(value="announcement/upload/{announcement_id}", method= RequestMethod.PUT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@RequestMapping(value="announcements/upload/{announcement_id}", method= RequestMethod.PUT, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public Announcement uploadFile(@RequestParam("file") MultipartFile file, @PathVariable("announcement_id") Integer announcement_id) throws IOException {
 		Optional<Announcement> announcement = announcementRepository.findById(announcement_id);
 		if (announcement.isPresent()) {
