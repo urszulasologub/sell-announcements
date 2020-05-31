@@ -16,6 +16,7 @@ import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.ignoreCase;
 
@@ -49,6 +50,18 @@ public class UserServiceImp implements UserService {
 		user.setPassword(encoder.encode(user.getPassword()));
 		Role userRole = roleRepository.findByRole("SITE_USER");
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		return userRepository.save(user);
+	}
+
+
+	@Override
+	public User saveAdminUser(User user) {
+		user.setPassword(encoder.encode(user.getPassword()));
+		Set<Role> roles = new HashSet<>();
+		for (Role role : roleRepository.findAll())
+			roles.add(role);
+		user.setRoles(roles);
+		user.setRoles(new HashSet<Role>(roles));
 		return userRepository.save(user);
 	}
 
