@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,6 +29,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
 			if (!an.getIs_hidden())
 				public_announcements.add(an);
 		}
+		Collections.sort(public_announcements);
 		return public_announcements;
 	}
 
@@ -39,6 +41,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
 			if (!an.getIs_hidden())
 				public_announcements.add(an);
 		}
+		Collections.sort(public_announcements);
 		return public_announcements;
 	}
 
@@ -66,12 +69,15 @@ public class AnnouncementServiceImp implements AnnouncementService {
 			if (!an.getIs_hidden())
 				announcements.add(an);
 		}
+		Collections.sort(announcements);
 		return announcements;
 	}
 
 	@Override
 	public List<Announcement> getUsersAnnouncements(User user_id) {
-		return announcementRepository.findByUserId(user_id);
+		List<Announcement> announcements = announcementRepository.findByUserId(user_id);
+		Collections.sort(announcements);
+		return announcements;
 	}
 
 }

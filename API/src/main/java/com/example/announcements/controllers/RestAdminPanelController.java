@@ -32,6 +32,9 @@ public class RestAdminPanelController {
     @Autowired
     PrivateMessageRepository privateMessageRepository;
 
+    @Autowired
+    RoleRepository roleRepository;
+
 
     @RequestMapping(value = { "/admin_auth" }, method = RequestMethod.GET)
     public List<User> adminUserList() {
@@ -138,4 +141,11 @@ public class RestAdminPanelController {
         return privateMessageRepository.findAll();
     }
 
+
+    @RequestMapping(value="/create_admin", method=RequestMethod.POST)
+    public User createAdmin(@RequestBody User user) {
+        user.setId(null);
+        user.setAnnouncements(null);
+        return userService.saveAdminUser(user);
+    }
 }
