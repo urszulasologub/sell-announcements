@@ -50,6 +50,8 @@ public class UserServiceImp implements UserService {
 		user.setPassword(encoder.encode(user.getPassword()));
 		Role userRole = roleRepository.findByRole("SITE_USER");
 		user.setRoles(new HashSet<Role>(Arrays.asList(userRole)));
+		if (isUserAlreadyPresent(user))
+			throw new RuntimeException("E-mail already exists!");
 		return userRepository.save(user);
 	}
 
@@ -62,18 +64,18 @@ public class UserServiceImp implements UserService {
 			roles.add(role);
 		user.setRoles(roles);
 		user.setRoles(new HashSet<Role>(roles));
+		if (isUserAlreadyPresent(user))
+			throw new RuntimeException("E-mail already exists!");
 		return userRepository.save(user);
 	}
 
 
 	@Override
 	public boolean isUserAlreadyPresent(User user) {
-		ExampleMatcher modelMatcher = ExampleMatcher.matching()
-				.withIgnorePaths("id")
-				.withMatcher("email", ignoreCase());
-		User newUser = new User();
-		newUser.setEmail(user.getEmail());
-		return userRepository.exists(Example.of(newUser, modelMatcher));
+		Optional<User> existingUser = userRepository.findUserByEmail(user.getEmail());
+		if (existingUser.isPresent())
+			return true;
+		return false;
 	}
 
 	/**
