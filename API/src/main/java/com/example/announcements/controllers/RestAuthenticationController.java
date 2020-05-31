@@ -57,6 +57,7 @@ public class RestAuthenticationController {
                 if (role.getRole().toString().equals("ADMIN_USER"))
                     is_admin = true;
             result.put("is_admin", is_admin.toString());
+            result.put("id", loggedInUser.getId().toString());
         } else {
             result.put("result", "failure");
         }
