@@ -113,15 +113,19 @@ public class RestAnnouncementsController {
 	}
 
 
-	@RequestMapping(value = { "/announcements/hide/{id}" }, method = RequestMethod.PUT)
-	public Announcement saveAnnouncement(@RequestBody Announcement inputAnnouncement) {
-		User user = userService.getLoggedInUser();
-		if (user == null)
-			throw new RuntimeException("Not logged in");
-		else if (user != inputAnnouncement.getUser_id())
-			throw new RuntimeException("Cannot hide someone's announcement");
-		inputAnnouncement.setIs_hidden(true);
-		return announcementRepository.save(inputAnnouncement);
+	@RequestMapping(value = { "/announcements/hide/{announcement_id}" }, method = RequestMethod.PUT)
+	public Announcement hideAnnouncement(@PathVariable("announcement_id") Integer announcement_id) {
+		Optional<Announcement> announcement = announcementRepository.findById(announcement_id);
+		if (announcement.isPresent()) {
+			User user = userService.getLoggedInUser();
+			if (user == null)
+				throw new RuntimeException("Not logged in");
+			else if (user != announcement.get().getUser_id())
+				throw new RuntimeException("Cannot hide someone's announcement");
+			announcement.get().setIs_hidden(true);
+			return announcementRepository.save(announcement.get());
+		}
+		return null;
 	}
 
 	@RequestMapping(value = { "announcements/user/{user_id}" }, method = RequestMethod.GET)
