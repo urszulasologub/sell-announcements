@@ -18,6 +18,8 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+
 @CrossOrigin(maxAge = 3600)
 @RestController
 public class RestAuthenticationController {
