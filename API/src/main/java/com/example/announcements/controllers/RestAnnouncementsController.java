@@ -59,9 +59,14 @@ public class RestAnnouncementsController {
 		return categoryRepository.findAll();
 	}
 
+    @RequestMapping(value = { "/announcements/add" }, consumes = { MediaType.APPLICATION_JSON_VALUE }, method = RequestMethod.POST)
+    public Announcement saveAnnouncementJson(@RequestBody AnnouncementDto inputAnnouncement) {
+		inputAnnouncement.setIntegerCategory_id(inputAnnouncement.getCategoryId()); // map to multipart counterpart
+        return saveAnnouncement(inputAnnouncement);
+    }
 
-	@RequestMapping(value = { "/announcements/add" }, method = RequestMethod.POST)
-	public Announcement saveAnnouncement(AnnouncementDto inputAnnouncement) {
+	@RequestMapping(value = { "/announcements/add" }, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
+	public Announcement saveAnnouncement( AnnouncementDto inputAnnouncement) {
 		User user = userService.getLoggedInUser();
 		if (user == null)
 			throw new RuntimeException("Not logged in");
@@ -71,8 +76,8 @@ public class RestAnnouncementsController {
 		inputAnnouncement.setDatetime(new Date());
 		if (inputAnnouncement.getPrice() == null || inputAnnouncement.getPrice() <= 0.0)
 			throw new RuntimeException("Incorrect price");
-		else if (inputAnnouncement.getIntegerCategory_id() == null)
-			throw new RuntimeException("category_id is missing");
+		else if (inputAnnouncement.getCategoryId() == null)
+			throw new RuntimeException("categoryId is missing");
 		else if (inputAnnouncement.getLocation() == null)
 			throw new RuntimeException("location is missing");
 		else if (inputAnnouncement.getName() == null)
