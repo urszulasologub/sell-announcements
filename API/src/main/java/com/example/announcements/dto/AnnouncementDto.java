@@ -1,9 +1,9 @@
 package com.example.announcements.dto;
 
 import com.example.announcements.models.Announcement;
-import com.example.announcements.models.Category;
 import com.example.announcements.models.PrivateMessage;
 import com.example.announcements.models.User;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
@@ -11,17 +11,18 @@ import java.util.Set;
 
 public class AnnouncementDto extends Announcement {
 
-	private Integer category_id;
+	private Integer categoryId;
 	private String description;
 	private MultipartFile file;
 
-
+	@JsonProperty("categoryId")
 	public Integer getIntegerCategory_id() {
-		return category_id;
+		return categoryId;
 	}
 
-	public void setCategory_id(Integer category_id) {
-		this.category_id = category_id;
+	@JsonProperty("categoryId")
+	public void setIntegerCategory_id(Integer categoryId) {
+		this.categoryId = categoryId;
 	}
 
 	@Override
@@ -34,15 +35,6 @@ public class AnnouncementDto extends Announcement {
 		super.setId(id);
 	}
 
-	@Override
-	public Category getCategory_id() {
-		return super.getCategory_id();
-	}
-
-	@Override
-	public void setCategory_id(Category category_id) {
-		super.setCategory_id(category_id);
-	}
 
 	@Override
 	public User getUser_id() {
@@ -142,6 +134,14 @@ public class AnnouncementDto extends Announcement {
 	@Override
 	public void setPrivateMessages(Set<PrivateMessage> privateMessages) {
 		super.setPrivateMessages(privateMessages);
+	}
+
+	public Integer getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(Integer category_id) {
+		this.categoryId = category_id;
 	}
 
 	public MultipartFile getFile() {
