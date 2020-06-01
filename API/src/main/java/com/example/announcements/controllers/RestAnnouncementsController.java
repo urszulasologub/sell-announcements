@@ -19,9 +19,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.Response;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class RestAnnouncementsController {
@@ -60,13 +62,29 @@ public class RestAnnouncementsController {
 	}
 
     @RequestMapping(value = { "/announcements/add" }, consumes = { MediaType.APPLICATION_JSON_VALUE }, method = RequestMethod.POST)
-    public Announcement saveAnnouncementJson(@RequestBody AnnouncementDto inputAnnouncement) {
+    public Announcement saveAnnouncementJson(@RequestBody AnnouncementDto inputAnnouncement) throws IOException {
 		inputAnnouncement.setIntegerCategory_id(inputAnnouncement.getCategoryId()); // map to multipart counterpart
         return saveAnnouncement(inputAnnouncement);
     }
 
+    @GetMapping(value = "/announcements/image/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	public @ResponseBody byte[] getAnnouncementImage(@PathVariable Integer id) {
+		Optional<Announcement> announcement = announcementRepository.findById(id);
+		if (announcement.isPresent()) {
+			Byte[] imageData = announcement.get().getImage();
+			int imageLength = imageData.length;
+			byte[] fileImage = new byte[imageLength];
+			for (int i = 0; i < imageLength; i++)
+				fileImage[i] = imageData[i];
+
+			return fileImage;
+		} else {
+			throw new RuntimeException("No announcement with ID " + id);
+		}
+	}
+
 	@RequestMapping(value = { "/announcements/add" }, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE }, method = RequestMethod.POST)
-	public Announcement saveAnnouncement( AnnouncementDto inputAnnouncement) {
+	public Announcement saveAnnouncement( AnnouncementDto inputAnnouncement) throws IOException {
 		User user = userService.getLoggedInUser();
 		if (user == null)
 			throw new RuntimeException("Not logged in");
@@ -84,6 +102,14 @@ public class RestAnnouncementsController {
 			throw new RuntimeException("name is missing");
 		else if (inputAnnouncement.getDescription() == null)
 			throw new RuntimeException("description is missing");
+
+
+		byte[] imageData = inputAnnouncement.getFile().getBytes();
+		int imageLength = imageData.length;
+		Byte[] fileImage = new Byte[imageLength];
+		for (int i = 0; i < imageLength; i++)
+			fileImage[i] = imageData[i];
+
 		Announcement newAnnouncement = new Announcement(
 				inputAnnouncement.getId(),
 				categoryRepository.findCategoryById(inputAnnouncement.getIntegerCategory_id()),
@@ -91,7 +117,7 @@ public class RestAnnouncementsController {
 				inputAnnouncement.getName(),
 				inputAnnouncement.getPrice(),
 				inputAnnouncement.getDescription(),
-				inputAnnouncement.getImage(),
+				fileImage,
 				inputAnnouncement.getIs_hidden(),
 				inputAnnouncement.getPhone_number(),
 				inputAnnouncement.getDatetime(),
