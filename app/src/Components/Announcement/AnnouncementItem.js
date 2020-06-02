@@ -52,7 +52,7 @@ const Img = styled.li`
   background-color: #e3e3e3;
   background-image: url(${({ background }) => (background ? `data:image/png;base64,${background}` : noImage)});
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 130px 130px;
   border-radius: 4px;
 `;
 

@@ -56,10 +56,7 @@ const AnnouncementForm = () => {
       .label('Description'),
     phoneNumber: yup
       .string()
-      .matches(
-        /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/,
-        'Phone number is not valid',
-      ),
+      .matches(/^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/, 'Phone number is not valid'),
     location: yup
       .string()
       .max(200)
@@ -112,7 +109,7 @@ const AnnouncementForm = () => {
         error={errors.name ? true : false}
         helperText={errors.name ? errors.name.message : ''}
       />
-      <TextField name="file" inputRef={register} type="file" fullWidth />
+      <TextField name="file" inputRef={register} type="file" fullWidth error={errors.file ? true : false} helperText={errors.file ? errors.file.message : ''} />
       {category && selectCategory.value ? (
         <TextField
           id="standard-select-category"

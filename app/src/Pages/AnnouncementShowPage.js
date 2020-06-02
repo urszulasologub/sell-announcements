@@ -69,8 +69,12 @@ const AnnouncementShowPage = value => {
           <CardWrapper>
             {data.user_id.id === Number(state.userId) ? (
               <StyledButtonGroup color="secondary" aria-label="outlined secondary button group">
-                <Button onClick={() => (window.confirm('Are you sure you want to archive this announcement') ? archiveOrDelete('hide', data.id) : null)}>Archive</Button>
-                <Button onClick={() => (window.confirm('Are you sure you want to delete this announcement') ? archiveOrDelete('delete', data.id) : null)}>Delete</Button>
+                <Button onClick={() => (window.confirm('Are you sure you want to archive this announcement') ? archiveOrDelete('hide', data.id) : null)}>
+                  Archive
+                </Button>
+                <Button onClick={() => (window.confirm('Are you sure you want to delete this announcement') ? archiveOrDelete('delete', data.id) : null)}>
+                  Delete
+                </Button>
               </StyledButtonGroup>
             ) : null}
 
@@ -159,7 +163,7 @@ const Img = styled.div`
   background-color: #e3e3e3;
   background-image: url(${({ background }) => (background ? `data:image/png;base64,${background}` : noImage)});
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 350px 350px;
   border-radius: 4px;
   margin: 15px 0;
 `;
