@@ -167,8 +167,7 @@ public class Announcement implements Comparable<Announcement> {
 
 	@Override
 	public int compareTo(Announcement o) {
-		if (o == null && o.getDatetime() == null)	return 0;
-		else if (o == null || o.getDatetime() == null)	return -1;
+		if (o == null || o.getDatetime() == null)	return -1;
 		else if (this.getDatetime() == null)		return 1;
 		return (-this.getDatetime().compareTo(o.getDatetime()));
 	}
