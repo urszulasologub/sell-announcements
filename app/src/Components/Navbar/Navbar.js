@@ -43,8 +43,7 @@ const Navbar = () => {
                 <Button
                   color="inherit"
                   onClick={() => {
-                    // history.push('/announcement/create');
-                    console.log('admin panel');
+                    history.push('/admin');
                   }}
                 >
                   Admin Panel
