@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { REMOTE_HOST } from 'config';
 import noImage from 'assets/noImage.png';
 import { useHistory } from 'react-router-dom';
 
@@ -51,7 +50,7 @@ const Img = styled.li`
   width: 130px;
   height: 130px;
   background-color: #e3e3e3;
-  background-image: url(${({ background }) => (background ? background : noImage)});
+  background-image: url(${({ background }) => (background ? `data:image/png;base64,${background}` : noImage)});
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 4px;
@@ -59,6 +58,7 @@ const Img = styled.li`
 
 const AnnouncementItem = ({ data }) => {
   const history = useHistory();
+
   return (
     <Card
       onClick={() => {
@@ -66,7 +66,7 @@ const AnnouncementItem = ({ data }) => {
       }}
     >
       <Wrapper>
-        {data.image ? <Img background={REMOTE_HOST + data.image} /> : <Img />}
+        {data.image ? <Img background={btoa(String.fromCharCode.apply(null, new Uint8Array(data.image)))} /> : <Img />}
         <TextWrapper>
           <StyledName>{data.name}</StyledName>
           <StyledLocation>location: {data.location}</StyledLocation>

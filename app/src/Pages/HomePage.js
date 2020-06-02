@@ -26,6 +26,7 @@ const HomePage = () => {
     axios(options)
       .then(e => {
         setData(e.data);
+        console.log(e.data);
       })
       .catch(e => {
         setError('Failed to load data');
