@@ -49,11 +49,14 @@ public class AnnouncementServiceImp implements AnnouncementService {
 	public Announcement getAnnouncementById(Integer id) {
 		Optional<Announcement> announcement = announcementRepository.findById(id);
 		if (announcement.isPresent()) {
-			User user = userService.getLoggedInUser();
-			if (user == null)
-				return null;
-			else if (user != announcement.get().getUser_id())
-				return null;
+			if (announcement.get().getIs_hidden()) {
+				User user = userService.getLoggedInUser();
+				if (user == null)
+					throw new RuntimeException("Cannot access private announcement while logged off!");
+				else if (user != announcement.get().getUser_id())
+					throw new RuntimeException("You don't have permission to see this announcement")
+				return announcement.get();
+			}
 			return announcement.get();
 		}
 		throw new RuntimeException("Couldn't find an announcement");
