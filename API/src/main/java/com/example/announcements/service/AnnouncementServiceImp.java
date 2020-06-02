@@ -54,7 +54,7 @@ public class AnnouncementServiceImp implements AnnouncementService {
 				if (user == null)
 					throw new RuntimeException("Cannot access private announcement while logged off!");
 				else if (user != announcement.get().getUser_id())
-					throw new RuntimeException("You don't have permission to see this announcement")
+					throw new RuntimeException("You don't have permission to see this announcement");
 				return announcement.get();
 			}
 			return announcement.get();
