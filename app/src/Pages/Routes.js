@@ -5,6 +5,7 @@ import LoginPage from 'pages/LoginPage';
 import RegisterPage from 'pages/RegisterPage';
 import AnnouncementCreatePage from 'pages/AnnouncementCreatePage';
 import AnnouncementShowPage from 'pages/AnnouncementShowPage';
+import AdminPage from 'pages/AdminPage';
 import { Context } from 'components/data/Store';
 
 const Routes = () => {
@@ -19,6 +20,7 @@ const Routes = () => {
         {state.token ? (
           <>
             <Route exact path="/announcement/create" component={AnnouncementCreatePage} />
+            {state.admin ? <Route exact path="/admin" component={AdminPage} /> : null}
           </>
         ) : null}
         <Redirect to="/" />

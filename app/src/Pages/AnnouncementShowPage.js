@@ -69,25 +69,17 @@ const AnnouncementShowPage = value => {
           <CardWrapper>
             {data.user_id.id === Number(state.userId) ? (
               <StyledButtonGroup color="secondary" aria-label="outlined secondary button group">
-                <Button
-                  onClick={() =>
-                    window.confirm('Are you sure you want to archive this announcement') ? archiveOrDelete('hide', data.id) : null
-                  }
-                >
+                <Button onClick={() => (window.confirm('Are you sure you want to archive this announcement') ? archiveOrDelete('hide', data.id) : null)}>
                   Archive
                 </Button>
-                <Button
-                  onClick={() =>
-                    window.confirm('Are you sure you want to delete this announcement') ? archiveOrDelete('delete', data.id) : null
-                  }
-                >
+                <Button onClick={() => (window.confirm('Are you sure you want to delete this announcement') ? archiveOrDelete('delete', data.id) : null)}>
                   Delete
                 </Button>
               </StyledButtonGroup>
             ) : null}
 
             <Wrapper>
-              {data.image ? <Img background={REMOTE_HOST + data.image} /> : <Img />}
+              {data.image ? <Img background={btoa(String.fromCharCode.apply(null, new Uint8Array(data.image)))} /> : <Img />}
               <TitleWrapper>
                 <StyledName>{data.name}</StyledName>
                 <StyledPrice>{data.price} $</StyledPrice>
@@ -169,9 +161,9 @@ const Img = styled.div`
   width: 350px;
   height: 350px;
   background-color: #e3e3e3;
-  background-image: url(${({ background }) => (background ? background : noImage)});
+  background-image: url(${({ background }) => (background ? `data:image/png;base64,${background}` : noImage)});
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: 350px 350px;
   border-radius: 4px;
   margin: 15px 0;
 `;
