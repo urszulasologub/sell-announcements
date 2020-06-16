@@ -42,6 +42,12 @@ public class UserServiceImp implements UserService {
 			roleRepository.save(admin);
 			roleRepository.save(siteuser);
 		}
+		if (userRepository.count() == 0) {
+			User adminUser = new User();
+			adminUser.setEmail("admin@example.com");
+			adminUser.setPassword("admin123");
+			saveAdminUser(adminUser);
+		}
 	}
 
 

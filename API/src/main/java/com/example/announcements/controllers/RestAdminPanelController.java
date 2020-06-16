@@ -36,6 +36,104 @@ public class RestAdminPanelController {
     RoleRepository roleRepository;
 
 
+    @RequestMapping(value = { "/admin/create_database"}, method = RequestMethod.POST)
+    public Map<String, String> createExampleDatabase() {
+        Map<String, String> result = new HashMap<>();
+        try {
+            privateMessageRepository.deleteAll();
+            privateMessageRepository.flush();
+            announcementRepository.deleteAll();
+            announcementRepository.flush();
+            categoryRepository.deleteAll();
+            categoryRepository.flush();
+            userRepository.deleteAll();
+            userRepository.flush();
+            User admin = new User();
+            admin.setEmail("admin@example.com");
+            admin.setPassword("admin123");
+            userService.saveAdminUser(admin);
+            User user = new User();
+            user.setEmail("user@example.com");
+            user.setPassword("user123");
+            userService.saveUser(user);
+            Category phonesCategory = new Category();
+            phonesCategory.setName("Phones");
+            categoryRepository.save(phonesCategory);
+            Category laptopsCategory = new Category();
+            laptopsCategory.setName("Laptops");
+            categoryRepository.save(laptopsCategory);
+
+            Announcement iPhoneAnnouncement = new Announcement();
+            iPhoneAnnouncement.setCategory_id(phonesCategory);
+            iPhoneAnnouncement.setName("Apple iPhone XS");
+            iPhoneAnnouncement.setUser_id(admin);
+            iPhoneAnnouncement.setLocation("Lodz");
+            iPhoneAnnouncement.setPhone_number("123456789");
+            iPhoneAnnouncement.setPrice((float) 650.0);
+            iPhoneAnnouncement.setDescription("The good The iPhone XS has a markedly improved dual camera, delivering better photos than the iPhone X in both dark and high-contrast environments. It has a faster processor, faster face ID. 512GB");
+            iPhoneAnnouncement.setIs_hidden(false);
+            iPhoneAnnouncement.setDatetime(new Date());
+            announcementRepository.save(iPhoneAnnouncement);
+
+            Announcement iPhoneAnnouncement2 = new Announcement();
+            iPhoneAnnouncement2.setCategory_id(phonesCategory);
+            iPhoneAnnouncement2.setName("APPLE iPhone 7 CHEAP");
+            iPhoneAnnouncement2.setUser_id(user);
+            iPhoneAnnouncement2.setLocation("Warsaw");
+            iPhoneAnnouncement2.setPhone_number("123000789");
+            iPhoneAnnouncement2.setPrice((float) 200.0);
+            iPhoneAnnouncement2.setDescription("Very good price for a very good phone!");
+            iPhoneAnnouncement2.setIs_hidden(false);
+            iPhoneAnnouncement2.setDatetime(new Date());
+            announcementRepository.save(iPhoneAnnouncement2);
+
+            Announcement macbookAnnouncement = new Announcement();
+            macbookAnnouncement.setCategory_id(laptopsCategory);
+            macbookAnnouncement.setName("Macbook Air 2020 512GB");
+            macbookAnnouncement.setUser_id(admin);
+            macbookAnnouncement.setLocation("Lodz");
+            macbookAnnouncement.setPhone_number("123456789");
+            macbookAnnouncement.setPrice((float) 2000.0);
+            macbookAnnouncement.setDescription("Newest Macbook Air. 512GB of storage, i5 processor, 13\" with new Magic Keyboard. Almost new, only 90 battery cycles");
+            macbookAnnouncement.setIs_hidden(false);
+            macbookAnnouncement.setDatetime(new Date());
+            announcementRepository.save(macbookAnnouncement);
+
+            Announcement laptopAnnouncement = new Announcement();
+            laptopAnnouncement.setCategory_id(laptopsCategory);
+            laptopAnnouncement.setName("Gaming notebook MSI");
+            laptopAnnouncement.setUser_id(user);
+            laptopAnnouncement.setLocation("Warsaw");
+            laptopAnnouncement.setPhone_number("123000789");
+            laptopAnnouncement.setPrice((float) 700.0);
+            laptopAnnouncement.setDescription("Bought this laptop one year ago, still works great. 8GB RAM, 500GB SSD, i5 processor. Battery lasts for like 3 hours under big usage");
+            laptopAnnouncement.setIs_hidden(false);
+            laptopAnnouncement.setDatetime(new Date());
+            announcementRepository.save(laptopAnnouncement);
+
+            PrivateMessage message1 = new PrivateMessage();
+            message1.setBuyer(user);
+            message1.setDatetime(new Date());
+            message1.setMessage("Hello I am interested in buying this product");
+            message1.setAnnouncement_id(iPhoneAnnouncement);
+            privateMessageRepository.save(message1);
+
+            PrivateMessage message2 = new PrivateMessage();
+            message2.setBuyer(user);
+            message2.setDatetime(new Date());
+            message2.setMessage("Hi, I would like to buy this iPhone");
+            message2.setAnnouncement_id(iPhoneAnnouncement2);
+            privateMessageRepository.save(message2);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Couldn't finish an operation");
+        }
+        result.put("result", "success");
+        return result;
+    }
+
+
     @RequestMapping(value = { "/admin_auth" }, method = RequestMethod.GET)
     public List<User> adminUserList() {
         return userRepository.findAll();

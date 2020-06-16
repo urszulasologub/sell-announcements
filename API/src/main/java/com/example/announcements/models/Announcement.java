@@ -1,6 +1,9 @@
 package com.example.announcements.models;
 
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,7 +50,7 @@ public class Announcement implements Comparable<Announcement> {
 	@Column(name = "location")
 	private String location;
 
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.DETACH)
 	@JoinColumn(name="announcement_id")
 	private Set<PrivateMessage> privateMessages = new HashSet<PrivateMessage>();
 

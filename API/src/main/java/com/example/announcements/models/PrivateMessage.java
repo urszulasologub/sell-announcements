@@ -15,10 +15,10 @@ public class PrivateMessage implements Comparable<PrivateMessage> {
 	@Column(name = "message_id")
 	private Integer id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.DETACH)
 	private Announcement announcementId;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name="user_id")
 	private User buyer;
 

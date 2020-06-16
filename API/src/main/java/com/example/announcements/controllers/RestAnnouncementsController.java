@@ -76,7 +76,6 @@ public class RestAnnouncementsController {
 			byte[] fileImage = new byte[imageLength];
 			for (int i = 0; i < imageLength; i++)
 				fileImage[i] = imageData[i];
-
 			return fileImage;
 		} else {
 			throw new RuntimeException("No announcement with ID " + id);
