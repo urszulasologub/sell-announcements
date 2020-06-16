@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.*;
 
 @RestController
@@ -34,6 +37,29 @@ public class RestAdminPanelController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @RequestMapping(value = { "admin/statistics"}, method = RequestMethod.GET)
+    public Map<LocalDate, Integer> getStatisticsFromThisWeek() {
+		Map<LocalDate, Integer> result = new HashMap<>();
+		LocalDate today = LocalDate.now();
+		LocalDate weekAgo = LocalDate.now().minusDays(6);
+		for (LocalDate date = weekAgo; date.isBefore(today.plusDays(1)); date = date.plusDays(1)) {
+			result.put(date, 0);
+		}
+		for (Announcement ann : announcementRepository.findAll()) {
+			for (LocalDate date = weekAgo; date.isBefore(today.plusDays(1)); date = date.plusDays(1)) {
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(ann.getDatetime());
+				LocalDate announcementDate = LocalDate.of(cal.get(Calendar.YEAR),
+						cal.get(Calendar.MONTH) + 1,
+						cal.get(Calendar.DAY_OF_MONTH));
+				if (announcementDate.compareTo(date) == 0) {
+					result.put(date, result.get(date) + 1);
+				}
+			}
+		}
+        return result;
+    }
 
 
     @RequestMapping(value = { "/admin/create_database"}, method = RequestMethod.POST)
