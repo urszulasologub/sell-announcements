@@ -48,14 +48,18 @@ public class RestAdminPanelController {
 		}
 		for (Announcement ann : announcementRepository.findAll()) {
 			for (LocalDate date = weekAgo; date.isBefore(today.plusDays(1)); date = date.plusDays(1)) {
-				Calendar cal = Calendar.getInstance();
-				cal.setTime(ann.getDatetime());
-				LocalDate announcementDate = LocalDate.of(cal.get(Calendar.YEAR),
-						cal.get(Calendar.MONTH) + 1,
-						cal.get(Calendar.DAY_OF_MONTH));
-				if (announcementDate.compareTo(date) == 0) {
-					result.put(date, result.get(date) + 1);
-				}
+			    try {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(ann.getDatetime());
+                    LocalDate announcementDate = LocalDate.of(cal.get(Calendar.YEAR),
+                            cal.get(Calendar.MONTH) + 1,
+                            cal.get(Calendar.DAY_OF_MONTH));
+                    if (announcementDate.compareTo(date) == 0) {
+                        result.put(date, result.get(date) + 1);
+                    }
+                } catch (Exception e) {
+			        e.printStackTrace();
+                }
 			}
 		}
         return result;
