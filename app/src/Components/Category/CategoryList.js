@@ -47,7 +47,7 @@ const PinnedSubheaderList = () => {
         setData(e.data);
       })
       .catch(() => {
-        setError('Announcement not exist');
+        setError('Category not exist');
       })
       .then(() => {
         setLoading(false);
@@ -65,10 +65,7 @@ const PinnedSubheaderList = () => {
           {data.map(el => (
             <Item key={el.id}>
               <TitleItem>{el.name}</TitleItem>
-              <IconButton
-                aria-label="delete"
-                onClick={() => (window.confirm('Are you sure you want to delete this category') ? handleDelete(el.id) : null)}
-              >
+              <IconButton aria-label="delete" onClick={() => (window.confirm('Are you sure you want to delete this category') ? handleDelete(el.id) : null)}>
                 <DeleteIcon />
               </IconButton>
             </Item>
