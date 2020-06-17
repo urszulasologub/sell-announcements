@@ -40,7 +40,7 @@ public class RestAdminPanelController {
 
     @RequestMapping(value = { "admin/statistics"}, method = RequestMethod.GET)
     public Map<LocalDate, Integer> getStatisticsFromThisWeek() {
-		Map<LocalDate, Integer> result = new HashMap<>();
+		Map<LocalDate, Integer> result = new TreeMap<>();
 		LocalDate today = LocalDate.now();
 		LocalDate weekAgo = LocalDate.now().minusDays(6);
 		for (LocalDate date = weekAgo; date.isBefore(today.plusDays(1)); date = date.plusDays(1)) {
