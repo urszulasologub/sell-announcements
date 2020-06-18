@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
@@ -7,8 +7,8 @@ import { REMOTE_HOST } from 'config';
 import { Context } from 'components/data/Store';
 import Button from '@material-ui/core/Button';
 
-const MessageInput = ({ data }) => {
-  const { handleSubmit } = useForm();
+const MessageInput = ({ addId, owner, id, setMessages }) => {
+  const { register, handleSubmit } = useForm();
   const [state] = useContext(Context);
 
   const onSubmit = ({ message }) => {
@@ -18,20 +18,18 @@ const MessageInput = ({ data }) => {
         Authorization: 'Bearer ' + state.token,
         'Content-Type': 'application/json',
       },
-      url: `${REMOTE_HOST}/announcements/${data.id}/messages/send`,
-      data: { message },
+      url: owner ? `${REMOTE_HOST}/announcements/${addId}/messages/reply/${id}` : `${REMOTE_HOST}/announcements/${addId}/messages/send`,
+      data: { message: message },
     };
 
-    axios(options)
-      .then(d => {
-        console.log(d.data);
-      })
-      .catch(() => {});
+    axios(options).then(el => {
+      setMessages(oldArray => [...oldArray, el.data]);
+    });
   };
 
   return (
     <StyledForm onSubmit={handleSubmit(onSubmit)}>
-      <TextField name="message" label="Message" fullWidth multiline />
+      <TextField name="message" inputRef={register} label="Message" fullWidth multiline />
       <StyledButton variant="contained" type="submit">
         Send
       </StyledButton>
