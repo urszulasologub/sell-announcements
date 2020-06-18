@@ -55,6 +55,7 @@ public class RestPrivateMessagesController {
 		Optional<Announcement> existingAnnouncement = announcementRepository.findById(announcement_id.getId());
 		if (!existingAnnouncement.isPresent())
 			throw new RuntimeException("Announcement does not exist!");
+		inputMessage.setAuthor(user);
 		inputMessage.setDatetime(Calendar.getInstance().getTime());
 		inputMessage.setBuyer(user);
 		inputMessage.setAnnouncement_id(announcement_id);
@@ -71,6 +72,7 @@ public class RestPrivateMessagesController {
 			throw new RuntimeException("Announcement does not exist!");
 		inputMessage.setDatetime(Calendar.getInstance().getTime());
 		inputMessage.setBuyer(buyer_id);
+		inputMessage.setAuthor(user);
 		inputMessage.setAnnouncement_id(announcement_id);
 		return privateMessageRepository.save(inputMessage);
 	}
