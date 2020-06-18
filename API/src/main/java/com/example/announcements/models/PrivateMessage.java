@@ -26,6 +26,10 @@ public class PrivateMessage implements Comparable<PrivateMessage> {
 		isSeller = seller;
 	}
 
+	public Boolean getSeller() {
+		return isSeller;
+	}
+
 	@Column(name = "is_seller")
 	private Boolean isSeller;
 
@@ -45,10 +49,6 @@ public class PrivateMessage implements Comparable<PrivateMessage> {
 		this.buyer = buyer;
 		this.message = message;
 		this.datetime = datetime;
-	}
-
-	public User getSeller() {
-		return announcementId.getUser_id();
 	}
 
 	public Integer getId() {
