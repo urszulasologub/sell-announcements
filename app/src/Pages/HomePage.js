@@ -91,15 +91,7 @@ const HomePage = () => {
             }}
           />
           {category && selectCategory.value ? (
-            <TextField
-              id="standard-select-category"
-              select
-              label="Select Category"
-              value={selectCategory.value}
-              onChange={handleChange}
-              fullWidth
-              helperText="Please select category"
-            >
+            <TextField id="standard-select-category" select value={selectCategory.value} onChange={handleChange} fullWidth>
               {category.map(option => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
