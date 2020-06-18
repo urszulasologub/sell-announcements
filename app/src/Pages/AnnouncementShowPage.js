@@ -10,6 +10,7 @@ import Button from '@material-ui/core/Button';
 import noImage from 'assets/noImage.png';
 import { Context } from 'components/data/Store';
 import { useHistory } from 'react-router-dom';
+import MessageBox from 'components/Message/MessageBox';
 
 const AnnouncementShowPage = value => {
   const [data, setData] = useState(null);
@@ -85,6 +86,7 @@ const AnnouncementShowPage = value => {
       {loading ? <StyledCircularProgress /> : null}
       {data ? (
         <Card>
+          {console.log(data)}
           <CardWrapper>
             {data.user_id.id === Number(state.id) && state.admin !== 'true' ? (
               <StyledButtonGroup color="secondary" aria-label="outlined secondary button group">
@@ -123,6 +125,7 @@ const AnnouncementShowPage = value => {
           </CardWrapper>
         </Card>
       ) : null}
+      {data ? <MessageBox data={data} /> : null}
     </RootTemplate>
   );
 };
