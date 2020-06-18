@@ -7,12 +7,32 @@ import { REMOTE_HOST } from 'config';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Alert from '@material-ui/lab/Alert';
 import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const HomePage = () => {
   const [data, setData] = useState(null);
   const [filterData, setFilterData] = useState(null);
+  const [displayData, setDisplayData] = useState(null);
   const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [selectCategory, setSelectCategory] = useState({ value: -10 });
+
+  useEffect(() => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      url: `${REMOTE_HOST}/categories`,
+    };
+
+    axios(options).then(e => {
+      let d = e.data.map(el => ({ value: el.id, label: el.name }));
+      d.push({ value: -10, label: 'SELECT Category' });
+      setCategory(d);
+    });
+  }, []);
 
   useEffect(() => {
     const options = {
@@ -29,6 +49,7 @@ const HomePage = () => {
       .then(e => {
         setData(e.data);
         setFilterData(e.data);
+        setDisplayData(e.data);
       })
       .catch(e => {
         setError('Failed to load data');
@@ -39,8 +60,18 @@ const HomePage = () => {
   }, []);
 
   const filter = value => {
-    const regex = new RegExp(`${value}`, 'g');
+    const regex = new RegExp(`${value.replace(/\\/g, '')}`, 'g');
     setFilterData(data.filter(({ name }) => name.toLowerCase().match(regex)));
+    setDisplayData(data.filter(({ name }) => name.toLowerCase().match(regex)));
+  };
+
+  const handleChange = event => {
+    setSelectCategory({ value: event.target.value });
+    if (event.target.value !== -10) {
+      setDisplayData(filterData.filter(el => el.category_id.id === event.target.value));
+    } else {
+      setDisplayData(filterData);
+    }
   };
 
   return (
@@ -59,8 +90,25 @@ const HomePage = () => {
               filter(e.target.value);
             }}
           />
+          {category && selectCategory.value ? (
+            <TextField
+              id="standard-select-category"
+              select
+              label="Select Category"
+              value={selectCategory.value}
+              onChange={handleChange}
+              fullWidth
+              helperText="Please select category"
+            >
+              {category.map(option => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          ) : null}
         </TextFieldWrapper>
-        {filterData ? filterData.map(el => <AnnouncementItem data={el} key={el.id} />) : null}
+        {displayData ? displayData.map(el => <AnnouncementItem data={el} key={el.id} />) : null}
       </Wrapper>
     </RootTemplate>
   );
