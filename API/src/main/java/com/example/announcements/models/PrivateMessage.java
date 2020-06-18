@@ -22,16 +22,12 @@ public class PrivateMessage implements Comparable<PrivateMessage> {
 	@JoinColumn(name="user_id")
 	private User buyer;
 
-	public User getAuthor() {
-		return author;
+	public void setSeller(Boolean seller) {
+		isSeller = seller;
 	}
 
-	public void setAuthor(User author) {
-		this.author = author;
-	}
-
-	@Column(name = "author")
-	private User author;
+	@Column(name = "is_seller")
+	private Boolean isSeller;
 
 	@Column(name = "message", length=2500)
 	private String message;

@@ -143,7 +143,7 @@ public class RestAdminPanelController {
 
             PrivateMessage message1 = new PrivateMessage();
             message1.setBuyer(user);
-            message1.setAuthor(user);
+            message1.setSeller(iPhoneAnnouncement.getUser_id() == user);
             message1.setDatetime(new Date());
             message1.setMessage("Hello I am interested in buying this product");
             message1.setAnnouncement_id(iPhoneAnnouncement);
@@ -151,7 +151,7 @@ public class RestAdminPanelController {
 
             PrivateMessage message2 = new PrivateMessage();
             message2.setBuyer(user);
-            message2.setAuthor(user);
+            message2.setSeller(iPhoneAnnouncement2.getUser_id() == user);
             message2.setDatetime(new Date());
             message2.setMessage("Hi, I would like to buy this iPhone");
             message2.setAnnouncement_id(iPhoneAnnouncement2);
