@@ -18,6 +18,25 @@ const AnnouncementShowPage = value => {
   const [state] = useContext(Context);
   const history = useHistory();
 
+  const archiveOrDeleteAdmin = (action, id) => {
+    const options = {
+      method: action === 'delete' ? 'DELETE' : 'PUT',
+      headers: {
+        Authorization: 'Bearer ' + state.token,
+        'Content-Type': 'application/json',
+      },
+      url: `${REMOTE_HOST}/admin_announcement/${action}/${id}`,
+    };
+
+    axios(options).then(() => {
+      if (action === 'delete') {
+        history.push(`/`);
+      } else {
+        history.push(`/announcements/${id}`);
+      }
+    });
+  };
+
   const archiveOrDelete = (action, id) => {
     const options = {
       method: action === 'delete' ? 'DELETE' : 'PUT',
@@ -67,12 +86,23 @@ const AnnouncementShowPage = value => {
       {data ? (
         <Card>
           <CardWrapper>
-            {data.user_id.id === Number(state.userId) ? (
+            {data.user_id.id === Number(state.id) && state.admin !== 'true' ? (
               <StyledButtonGroup color="secondary" aria-label="outlined secondary button group">
                 <Button onClick={() => (window.confirm('Are you sure you want to archive this announcement') ? archiveOrDelete('hide', data.id) : null)}>
                   Archive
                 </Button>
                 <Button onClick={() => (window.confirm('Are you sure you want to delete this announcement') ? archiveOrDelete('delete', data.id) : null)}>
+                  Delete
+                </Button>
+              </StyledButtonGroup>
+            ) : null}
+
+            {state.admin === 'true' ? (
+              <StyledButtonGroup color="secondary" aria-label="outlined secondary button group">
+                <Button onClick={() => (window.confirm('Are you sure you want to archive this announcement') ? archiveOrDeleteAdmin('hide', data.id) : null)}>
+                  Archive
+                </Button>
+                <Button onClick={() => (window.confirm('Are you sure you want to delete this announcement') ? archiveOrDeleteAdmin('delete', data.id) : null)}>
                   Delete
                 </Button>
               </StyledButtonGroup>
