@@ -31,10 +31,10 @@ public class PrivateMessageServiceImp implements PrivateMessageService {
 	@Override
 	public List<PrivateMessage> getConversationWithUser(Announcement announcement_id, User buyer_id) {
 		User logged_user = userService.getLoggedInUser();
-		if (announcement_id.getUser_id() != logged_user)
-			throw new RuntimeException("Can't access someone's private messages");
 		List<PrivateMessage> announcements_priv = privateMessageRepository.findByAnnouncementId(announcement_id);
 		List<PrivateMessage> conversation = new ArrayList<>();
+		if (logged_user != buyer_id && logged_user != announcement_id.getUser_id())
+			throw new RuntimeException("Can't access someone's private messages");
 		for (PrivateMessage message : announcements_priv) {
 			if (message.getBuyer() == buyer_id)
 				conversation.add(message);

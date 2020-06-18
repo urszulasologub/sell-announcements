@@ -40,6 +40,10 @@ public class PrivateMessage implements Comparable<PrivateMessage> {
 		this.datetime = datetime;
 	}
 
+	public User getSeller() {
+		return announcementId.getUser_id();
+	}
+
 	public Integer getId() {
 		return id;
 	}
