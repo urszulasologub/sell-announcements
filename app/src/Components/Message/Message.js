@@ -57,7 +57,7 @@ const MessageWrapper = styled.div`
 const MessageWrapperText = styled.div`
   margin: 10px 15px;
   word-wrap: break-word;
-  font-size: 30px;
+  font-size: 18px;
   max-width: fit content;
 `;
 
