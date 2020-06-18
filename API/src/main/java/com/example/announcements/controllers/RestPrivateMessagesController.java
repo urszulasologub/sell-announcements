@@ -61,4 +61,18 @@ public class RestPrivateMessagesController {
 		return privateMessageRepository.save(inputMessage);
 	}
 
+	@RequestMapping(value = { "/announcements/{announcement_id}/messages/reply/{buyer_id}" }, method = RequestMethod.POST)
+	public PrivateMessage replyPrivateMessage(@RequestBody PrivateMessage inputMessage, @PathVariable("announcement_id") Announcement announcement_id, @PathVariable("buyer_id") User buyer_id) {
+		User user = userService.getLoggedInUser();
+		if (user == null)
+			throw new RuntimeException("Not logged in");
+		Optional<Announcement> existingAnnouncement = announcementRepository.findById(announcement_id.getId());
+		if (!existingAnnouncement.isPresent())
+			throw new RuntimeException("Announcement does not exist!");
+		inputMessage.setDatetime(Calendar.getInstance().getTime());
+		inputMessage.setBuyer(buyer_id);
+		inputMessage.setAnnouncement_id(announcement_id);
+		return privateMessageRepository.save(inputMessage);
+	}
+
 }
