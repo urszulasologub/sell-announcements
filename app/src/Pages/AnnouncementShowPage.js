@@ -86,7 +86,6 @@ const AnnouncementShowPage = value => {
       {loading ? <StyledCircularProgress /> : null}
       {data ? (
         <Card>
-          {console.log(data)}
           <CardWrapper>
             {data.user_id.id === Number(state.id) && state.admin !== 'true' ? (
               <StyledButtonGroup color="secondary" aria-label="outlined secondary button group">

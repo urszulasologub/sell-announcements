@@ -29,8 +29,7 @@ const Message = ({ id, addId, owner }) => {
       <Wrapper>
         {messages && messages.length > 0
           ? messages.map(item => (
-              <MessageWrapper messageOvner={false} key={item.id + Math.random()}>
-                {console.log(item)}
+              <MessageWrapper messageOvner={(item.seller && owner) || (!item.seller && !owner) ? true : false} key={item.id + Math.random()}>
                 <MessageWrapperText>{item.message}</MessageWrapperText>
               </MessageWrapper>
             ))
